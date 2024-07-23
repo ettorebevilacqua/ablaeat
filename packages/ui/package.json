@@ -40,9 +40,15 @@
     "eslint": "catalog:",
     "prettier": "catalog:",
     "react": "catalog:react18",
+    "@fortawesome/react-fontawesome":"catalog",
     "tailwindcss": "^3.4.4",
     "typescript": "catalog:",
-    "zod": "catalog:"
+    "zod": "catalog:",
+
+        "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+      "eslint": "^9.6.0",
+    "prettier": "^3.3.2"
   },
   "peerDependencies": {
     "react": "catalog:react18",

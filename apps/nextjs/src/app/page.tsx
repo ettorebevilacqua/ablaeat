@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import Link from 'next/link'
 
 import { api, HydrateClient } from "~/trpc/server";
 import { AuthShowcase } from "./_components/auth-showcase";
@@ -22,6 +23,10 @@ export default function HomePage() {
             ABLA<span className="text-primary">EAT</span>
           </h1>
           <AuthShowcase />
+
+          <Link href="/login">
+            Login
+          </Link>
 
           <CreatePostForm />
           <div className="w-full max-w-2xl overflow-y-scroll">
