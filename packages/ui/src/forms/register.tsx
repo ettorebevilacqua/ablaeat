@@ -1,6 +1,6 @@
 'use client';
 
-import { lusitana } from '@/app/ui/fonts';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   AtSymbolIcon,
   KeyIcon,
@@ -8,17 +8,17 @@ import {
   UserIcon
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
-import { Button } from './button';
 import { useFormState, useFormStatus } from 'react-dom';
-import { register } from '@/app/lib/actions';
+// import { register } from '@/app/lib/actions';
 
 export default function RegisterForm() {
-  const [errorMessage, formAction] = useFormState(register, null);
-
+ // const [errorMessage, formAction] = useFormState(register, null);
+  return <div>sssss</div>
+/*
   return (
     <form action={formAction} className="space-y-3">
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-        <h1 className={`${lusitana.className} mb-3 text-2xl`}>
+        <h1 className={`mb-3 text-2xl`}>
           Register by email.
         </h1>
         <div className="w-full">
@@ -117,6 +117,7 @@ export default function RegisterForm() {
       </div>
     </form>
   );
+  */
 }
 
 function RegisterButton() {

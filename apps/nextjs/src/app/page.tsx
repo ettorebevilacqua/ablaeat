@@ -8,6 +8,7 @@ import {
   PostCardSkeleton,
   PostList,
 } from "./_components/posts";
+import { UsersList } from "~/app/_components/users";
 
 export const runtime = "edge";
 
@@ -33,8 +34,6 @@ export default function HomePage() {
             <Suspense
               fallback={
                 <div className="flex w-full flex-col gap-4">
-                  <PostCardSkeleton />
-                  <PostCardSkeleton />
                   <PostCardSkeleton />
                 </div>
               }
