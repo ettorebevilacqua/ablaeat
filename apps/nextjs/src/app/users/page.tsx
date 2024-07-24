@@ -27,20 +27,3 @@ export default function UsersPage() {
     </HydrateClient>
   );
 }
-
-
-        // <h2 className="text-5xl font-extrabold tracking-tight sm:text-[2rem] py-6"">
-        //     Users <span className="text-primary">List</span>
-        // </h2>
-
-        //   <div className="flex w-full flex-col gap-4">
-        //     <Suspense fallback={
-        //             <div className="flex w-full flex-col gap-4">
-        //               Loading
-        //             </div>
-        //           }
-        //         >
-        //     <UsersList />
-        //   </Suspense>
-            
-        //   </div>
