@@ -1,15 +1,52 @@
 'use client';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Button } from "@acme/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+  useForm,
+} from "@acme/ui/form";
+import { Input } from "@acme/ui/input";
+import { toast } from "@acme/ui/toast";
+import { api } from "~/trpc/react";
+
 import {
   AtSymbolIcon,
   KeyIcon,
   ExclamationCircleIcon,
   UserIcon
 } from '@heroicons/react/24/outline';
-import { ArrowRightIcon } from '@heroicons/react/20/solid';
-import { useFormState, useFormStatus } from 'react-dom';
-// import { register } from '@/app/lib/actions';
+// import { ArrowRightIcon } from '@heroicons/react/20/solid';
+// import { useFormState, useFormStatus } from 'react-dom';
+
+// export function CreateUserForm() {
+//   const form = useForm({
+//     schema: CreatePostSchema,
+//     defaultValues: {
+//       name: "",
+//       email: "",
+//       emailVerified: "",
+//     },
+//   });
+
+//   const utils = api.useUtils();
+
+//   const createPost = api.user.create.useMutation({
+//     onSuccess: async () => {
+//       form.reset();
+//       await utils.post.invalidate();
+//     },
+//     onError: (err) => {
+//       toast.error(
+//         err.data?.code === "UNAUTHORIZED"
+//           ? "You must be logged in to post"
+//           : "Failed to create post",
+//       );
+//     },
+//   });
 
 export default function RegisterForm() {
  // const [errorMessage, formAction] = useFormState(register, null);

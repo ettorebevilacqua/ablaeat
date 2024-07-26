@@ -6,6 +6,7 @@ import type {
 import { skipCSRFCheck } from "@auth/core";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import Discord from "next-auth/providers/discord";
+import Credentials from './credentialsProvider';
 
 import { db } from "@acme/db/client";
 import { Account, Session, User } from "@acme/db/schema";
@@ -15,7 +16,7 @@ import { env } from "../env";
 declare module "next-auth" {
   interface Session {
     user: {
-      id: string;
+     id?: string;
     } & DefaultSession["user"];
   }
 }
@@ -38,7 +39,7 @@ export const authConfig = {
       }
     : {}),
   secret: env.AUTH_SECRET,
-  providers: [Discord],
+  providers: [Discord, ...Credentials],
   callbacks: {
     session: (opts) => {
       if (!("user" in opts))
@@ -52,8 +53,29 @@ export const authConfig = {
         },
       };
     },
+    async jwt({ token, user, account }) {
+      // initial signin
+      if (user && account) {
+        return user as JWT;
+      }
+
+      // Return previous token if the access token has not expired
+      if (Date.now() < token.exp * 100) {
+        return token;
+      }
+
+      // refresh token
+      return (await refreshAccessToken(token)) as JWT;
+    },
+    async redirect({ url, baseUrl }) {
+      return url.startsWith(baseUrl)
+        ? Promise.resolve(url)
+        : Promise.resolve(baseUrl);
+    },
   },
 } satisfies NextAuthConfig;
+
+
 
 export const validateToken = async (
   token: string,

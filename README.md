@@ -1,5 +1,5 @@
 # create-t3-turbo
-
+"next-auth": "5.0.0-beta.19", 4.24.7
 > [!NOTE]
 >
 > NextAuth setup now works for Expo app!
