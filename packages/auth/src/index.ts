@@ -6,7 +6,9 @@ export type { Session } from "next-auth";
 
 const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
 
-export { handlers, auth, signIn, signOut };
+export  signUp from "./signup";
+
+export { handlers, auth, signIn, signOut, signUp };
 
 export {
   invalidateSessionToken,
