@@ -1,5 +1,6 @@
 import { auth, signIn, signOut } from "@acme/auth";
 import { Button } from "@acme/ui/button";
+import Link from 'next/link'
 
 export async function AuthShowcase() {
   const session = await auth();
@@ -16,6 +17,12 @@ export async function AuthShowcase() {
         >
           Sign in with Discord
         </Button>
+
+
+          <Link href="/users/register">
+            Register
+          </Link>
+        
       </form>
     );
   }

@@ -3,7 +3,9 @@ import  {Button} from '@acme/ui/button';
 import  RegisterForm from '@acme/ui/forms/register';
 import { Metadata } from 'next';
 import Link from 'next/link'
- 
+
+import { login, signup } from './actions'
+
 export const metadata: Metadata = {
   title: 'Register',
 };
@@ -20,7 +22,14 @@ export default function LoginPage() {
             </Link>
           </div>
         </div>
-        <RegisterForm />
+            <form>
+      <label htmlFor="email">Email:</label>
+      <input id="email" name="email" type="email" required />
+      <label htmlFor="password">Password:</label>
+      <input id="password" name="password" type="password" required />
+      <button formAction={login}>Log in</button>
+      <button formAction={signup}>Sign up</button>
+    </form>
       </div>
     </main>
   );
