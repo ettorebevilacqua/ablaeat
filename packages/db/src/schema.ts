@@ -7,6 +7,7 @@ import {
   timestamp,
   uuid,
   varchar,
+  date,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -31,6 +32,15 @@ export const CreatePostSchema = createInsertSchema(Post, {
   updatedAt: true,
 });
 
+export const UpdatePostSchema = createInsertSchema(Post, {
+  id:z.string().min(1),
+  title: z.string().max(256),
+  content: z.string().max(256),
+}).omit({
+  createdAt: true,
+  updatedAt: true,
+});
+
 export const User = pgTable("user", {
   id: uuid("id").notNull().primaryKey().defaultRandom(),
   name: varchar("name", { length: 255 }),
@@ -40,6 +50,8 @@ export const User = pgTable("user", {
     withTimezone: true,
   }),
   image: varchar("image", { length: 255 }),
+  born: date('date'),
+  role:  varchar("role", { length: 50 })
 });
 
 export const UserRelations = relations(User, ({ many }) => ({

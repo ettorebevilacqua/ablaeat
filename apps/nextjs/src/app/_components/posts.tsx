@@ -28,7 +28,7 @@ export function CreatePostForm() {
 
   const utils = api.useUtils();
 
-  const createPost = api.post.create.useMutation({
+  const createPost = api.post.patch.useMutation({
     onSuccess: async () => {
       form.reset();
       await utils.post.invalidate();
@@ -47,7 +47,8 @@ export function CreatePostForm() {
       <form
         className="flex w-full max-w-2xl flex-col gap-4"
         onSubmit={form.handleSubmit((data) => {
-          createPost.mutate(data);
+          console.log('zzzzzzzzzzz 11111111 dd')
+          createPost.mutate({id: 'cdfce99e-84c2-4eee-8a90-a2fea1a305ca', title:'tttt1'});
         })}
       >
         <FormField
@@ -74,7 +75,7 @@ export function CreatePostForm() {
             </FormItem>
           )}
         />
-        <Button>Create</Button>
+        <Button>Create xx</Button>
       </form>
     </Form>
   );

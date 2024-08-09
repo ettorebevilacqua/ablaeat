@@ -10,6 +10,8 @@ import { TRPCReactProvider } from "~/trpc/react";
 
 import "~/app/globals.css";
 
+import Navbar from "./_components/navbar";
+
 import { env } from "~/env";
 
 export const metadata: Metadata = {
@@ -51,7 +53,16 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <TRPCReactProvider>{props.children}</TRPCReactProvider>
+
+          <TRPCReactProvider>
+            <main
+              id="skip"
+              className="min-h-[calc(100dvh-4rem)] md:min-h[calc(100dvh-5rem)]"
+            >
+            <Navbar />
+              {props.children}
+            </main>
+          </TRPCReactProvider>
           <div className="absolute bottom-4 right-4">
             <ThemeToggle />
           </div>

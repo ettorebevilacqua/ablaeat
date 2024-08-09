@@ -29,5 +29,6 @@
     "turbo": "^2.0.6",
     "typescript": "catalog:"
   },
-  "prettier": "@acme/prettier-config"
+  "prettier": "@acme/prettier-config",
+  "postinstall": "node ./drizzle_fix.js"
 }

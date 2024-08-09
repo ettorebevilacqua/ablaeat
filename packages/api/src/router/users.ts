@@ -37,4 +37,11 @@ export const userRouter = {
   delete: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
     return ctx.db.delete(User).where(eq(User.id, input));
   }),
+
+  update: protectedProcedure.input(CreatePostSchema)
+    .mutation(({ ctx, input }) => {
+      return ctx.db.insert(User).values(input);
+    }),
+
+
 } satisfies TRPCRouterRecord;

@@ -1,58 +1,43 @@
-'use client';
 
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { FormEvent } from 'react';
-import { getCsrfToken } from "next-auth/react";
+"use client";
+import { useState } from 'react';
 
-export default function Form({tokens} :{tokens:string}) {
-  const router = useRouter();
+import { CldUploadButton, CldImage } from "next-cloudinary";
+export function Photos({info, onError, onSuccess}) {
 
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-      // const token = await getCsrfToken();
-// console.log('getCsrfToken', token);
-  console.log('tokens', tokens);
-
-    const formData = new FormData(e.target);
-     const values = [...formData.entries()];
-    console.log('fffff', values);
-
-    const response = await signIn('custom-signup', {
-      email: formData.get('email'),
-      password: formData.get('password'),
-      csrfToken: tokens,
-      redirect: false,
-    });
-
-    console.log({ response });
-    if (!response?.error) {
-      router.push('/');
-      router.refresh();
-    }
-  };
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-2 mx-auto max-w-md mt-10"
-    >
-      <input
-        name="email"
-        className="border border-black text-black"
-        type="email"
-      />
-      <input
-        name="password"
-        className="border border-black  text-black"
-        type="password"
-      />
-      <button type="submit">Login</button>
-    </form>
+    <div>    
+      <CldUploadButton
+        options={{ multiple: false }}
+        public_id={info?.public_id || ''}
+        uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_PRESET_NAME}
+        onSuccess={onSuccess}
+        onQueuesEnd={(result, { widget }) => {
+            widget.close();
+        }}
+         onError={onError}
+
+      >
+        <span>
+          Upload
+        </span>
+      </CldUploadButton>
+    </div>
   );
 }
 
-export function Registration() {
+export default function Registration() {
+    const [info, setInfo] = useState();
+    const [error, setError] = useState();
+    const handleError = (error, _widget) =>{
+            setInfo(null);
+            setError(error);
+    }
+    const handleSuccess=(result, widget)=>{
+        setInfo(result?.info);
+        setError(null);
+        widget.close({ quiet: true, });
+    } 
     return (
         <div>
             <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-50">
@@ -63,6 +48,19 @@ export function Registration() {
                         </h3>
                     </a>
                 </div>
+                <div>info.public_id {info?.public_id}</div>
+                {info && info.resource_type === 'image' && (
+           <>
+           <CldImage
+              width={info.width}
+              height={info.height}
+              src={info.public_id}
+              alt="Uploaded image"
+            />
+            </>
+          )}
+                <Photos onError={handleError} onSuccess={handleSuccess} />
+
                 <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
                     <form>
                         <div>
