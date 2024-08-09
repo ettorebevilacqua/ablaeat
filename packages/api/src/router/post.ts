@@ -46,9 +46,10 @@ export const postRouter = {
       }),
     )
     .mutation(async ({ input, ctx }) => {
+      const data = {...input, updatedAt: new Date()}
       const [UpdatePostSchema] = await ctx.db
         .update(Post)
-        .set({ title: input.title })
+        .set(data)
         .where(eq(Post.id, input.id))
         .returning();
       return UpdatePostSchema;
