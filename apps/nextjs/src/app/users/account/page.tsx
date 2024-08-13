@@ -7,6 +7,7 @@ export function Photos({info, onError, onSuccess}) {
 
   return (
     <div>    
+    upload
       <CldUploadButton
         options={{ multiple: false }}
         public_id={info?.public_id || ''}
@@ -42,26 +43,28 @@ export default function Registration() {
         <div>
             <div className="flex flex-col items-center min-h-screen pt-6 sm:justify-center sm:pt-0 bg-gray-50">
                 <div>
-                    <a href="/">
-                        <h3 className="text-4xl font-bold text-purple-600">
-                            Logo
-                        </h3>
-                    </a>
+                   
                 </div>
                 <div>info.public_id {info?.public_id}</div>
                 {info && info.resource_type === 'image' && (
-           <>
+           <div>
+
+           <span className="block text-sm font-medium text-gray-700 undefined"> avatar </span> 
            <CldImage
               width={info.width}
               height={info.height}
               src={info.public_id}
               alt="Uploaded image"
             />
-            </>
+            </div>
           )}
                 <Photos onError={handleError} onSuccess={handleSuccess} />
 
                 <div className="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
+                <div className="text-sm text-gray-600 underline hover:text-red-900">photo</div>
+                <Photos  className="block text-sm font-medium text-red-700 undefined" onError={handleError} onSuccess={handleSuccess} >
+                    photo
+                </Photos>
                     <form>
                         <div>
                             <label
@@ -131,12 +134,15 @@ export default function Registration() {
                                 Already registered?
                             </a>
                             <button
+                                    onClick={()=>setError('max email send')}
                                 type="submit"
                                 className="inline-flex items-center px-4 py-2 ml-4 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out bg-gray-900 border border-transparent rounded-md active:bg-gray-900 false"
                             >
+
                                 Register
                             </button>
                         </div>
+                        <div className="text-sm text-gray-600 underline hover:text-red-900">{error}</div>
                     </form>
                 </div>
             </div>

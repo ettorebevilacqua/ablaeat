@@ -45,6 +45,8 @@ export const UpdatePostSchema = createInsertSchema(Post, {
 export const User = pgTable("user", {
   id: uuid("id").notNull().primaryKey().defaultRandom(),
   name: varchar("name", { length: 255 }),
+  first_name:  varchar("name", { length: 255 }),
+  last_name:  varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull(),
   emailVerified: timestamp("emailVerified", {
     mode: "date",
@@ -52,7 +54,8 @@ export const User = pgTable("user", {
   }),
   image: varchar("image", { length: 255 }),
   born: date('date'),
-  role:  varchar("role", { length: 50 })
+  role:  varchar("role", { length: 50 }),
+  position: varchar("image", { length: 255 })
 });
 
 export const UserRelations = relations(User, ({ many }) => ({
