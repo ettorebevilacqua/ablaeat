@@ -28,11 +28,15 @@ export async function GET(request: NextRequest) {
     if (!error) {
       console.log('confirm error ', data)
       redirectTo.searchParams.delete('next')
-      return NextResponse.redirect(redirectTo)
+      // const originalUrl = request.nextUrl.protocol + request.headers.get('host') + redirectTo.pathname
+      // return NextResponse.redirect(new URL(next, originalUrl)
+      // return NextResponse.redirect(redirectTo)
+            const originalUrl = request.nextUrl.protocol + request.headers.get('host') + redirectTo.pathname
+      return NextResponse.redirect(next)
     } else console.log('confirm error ', error)
   }
 
   // return the user to an error page with some instructions
   redirectTo.pathname = '/error'
-  return NextResponse.redirect(redirectTo)
+  return NextResponse.redirect('error')
 }
