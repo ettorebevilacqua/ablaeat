@@ -5,9 +5,9 @@ export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   })
-console.log('xxxx yyyyyy');
 
-  const supabase = createServerClient(
+
+  const supabase = await createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -27,7 +27,7 @@ console.log('xxxx yyyyyy');
       },
     }
   )
-
+// console.log('middleware xxxx yyyyyy',  supabase.auth.getUser);
   // IMPORTANT: Avoid writing any logic between createServerClient and
   // supabase.auth.getUser(). A simple mistake could make it very hard to debug
   // issues with users being randomly logged out.
@@ -35,6 +35,8 @@ console.log('xxxx yyyyyy');
   const {
     data: { user },
   } = await supabase.auth.getUser()
+  
+  // console.log('middleware user xxx', user);
 
   if (
     !user &&
@@ -44,7 +46,7 @@ console.log('xxxx yyyyyy');
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone()
     url.pathname = '/login'
-    return NextResponse.redirect(url)
+   // return NextResponse.redirect(url)
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're

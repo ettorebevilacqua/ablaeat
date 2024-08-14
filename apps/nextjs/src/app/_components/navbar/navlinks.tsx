@@ -26,10 +26,15 @@ export default async function Navlinks({ user }: NavlinksProps) {
 
         </nav>
       </div>
+      { 1===0 && (
       <div className="flex justify-end space-x-8">
           {user ?  <Logout />: <LogIn /> }
+           <span>{session?.user?.name}</span>
       </div>
-      <span>{session?.user?.name}</span>
+      )
+      }
+
+     
     </div>
   );
 }
