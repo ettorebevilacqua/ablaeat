@@ -33,11 +33,11 @@ export async function GET(request: NextRequest) {
       redirectTo.searchParams.delete('next')
       url.pathname = '/login'
 
-      return NextResponse.redirect(url)
+      return NextResponse.redirect("https://vps-194c6c2f.vps.ovh.net:3000" + next)
     } else console.log('confirm error ', error)
   }
 
   // return the user to an error page with some instructions
   url.pathname = '/error'
-  return NextResponse.redirect(url)
+  return NextResponse.redirect('https://vps-194c6c2f.vps.ovh.net:3000/error')
 }
