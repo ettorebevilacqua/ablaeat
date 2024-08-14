@@ -102,11 +102,14 @@ const supabase = createClient()
     }
   }
 
+ if (!user) {
+    return <h3>User not found</h3>
+ }
     return(
     <main className="container h-screen py-16">
         <div className="flex flex-col items-center justify-center gap-4">
             <div className="flex flex-row items-center justify-center gap-4">
-            user  {user.email} 
+            {user && 'User : ' + user.email} 
              <form action="/api/auth/signout" method="post">
                   <Button type="submit">
                     Sign out
