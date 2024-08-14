@@ -37,7 +37,7 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser()
   
   // console.log('middleware user xxx', user);
-
+NextResponse.redirect
   if (
     !user &&
     !request.nextUrl.pathname.startsWith('/login') &&

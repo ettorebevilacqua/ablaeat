@@ -18,6 +18,8 @@ export async function GET(request: NextRequest) {
   redirectTo.searchParams.delete('token_hash')
   redirectTo.searchParams.delete('type')
 
+    const url = request.nextUrl.clone()
+
   if (token_hash && type) {
     const supabase = await createClient()
 
@@ -25,14 +27,17 @@ export async function GET(request: NextRequest) {
       type,
       token_hash,
     })
+
     if (!error) {
       console.log('confirm error ', data)
       redirectTo.searchParams.delete('next')
-      return NextResponse.redirect(redirectTo)
+      url.pathname = '/login'
+
+      return NextResponse.redirect(url)
     } else console.log('confirm error ', error)
   }
 
   // return the user to an error page with some instructions
-  redirectTo.pathname = '/error'
-  return NextResponse.redirect(redirectTo)
+  url.pathname = '/error'
+  return NextResponse.redirect(url)
 }
