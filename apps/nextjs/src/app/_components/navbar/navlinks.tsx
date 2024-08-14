@@ -26,10 +26,11 @@ export default async function Navlinks({ user }: NavlinksProps) {
 
         </nav>
       </div>
-      { 1===0 && (
+      { 1===1 && (
       <div className="flex justify-end space-x-8">
-          {user ?  <Logout />: <LogIn /> }
-           <span>{session?.user?.name}</span>
+        <Link href="/login" className={s.link}>
+            Login
+          </Link>
       </div>
       )
       }
