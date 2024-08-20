@@ -17,16 +17,16 @@ import { env } from "~/env";
 export const metadata: Metadata = {
   metadataBase: new URL(
     env.VERCEL_ENV === "production"
-      ? "https://turbo.t3.gg"
+      ? "https://www.ablaeat.com"
       : "http://localhost:3000",
   ),
-  title: "Create T3 Turbo",
-  description: "Simple monorepo with shared backend for web & mobile apps",
+  title: "Abla Eat",
+  description: "Social friends food",
   openGraph: {
-    title: "Create T3 Turbo",
-    description: "Simple monorepo with shared backend for web & mobile apps",
+    title: "Abla Eat",
+    description: "Social friends food",
     url: "https://create-t3-turbo.vercel.app",
-    siteName: "Create T3 Turbo",
+    siteName: "Abla Eat",
   },
   twitter: {
     card: "summary_large_image",

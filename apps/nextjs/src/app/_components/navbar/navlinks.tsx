@@ -6,6 +6,7 @@ import Logo from "~/app/_components/icons/Logo";
 import s from './navbar.module.css';
 import Logout  from "~/app/users/Logout";
 import LogIn  from "~/app/users/SignIn";
+import { getUser } from "@acme/auth";
 
 interface NavlinksProps {
   user?: any;

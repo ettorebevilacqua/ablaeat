@@ -50,8 +50,8 @@ const supabase = createClient()
         .single()
 
       if (error && status !== 406) {
-        console.log(error)
-        throw error
+        console.log('ERROR ACCOUNT', error)
+        // throw error
       }
 
       if (data) {
