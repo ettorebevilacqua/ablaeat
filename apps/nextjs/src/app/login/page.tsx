@@ -6,11 +6,29 @@ import { Button } from "@acme/ui/button";
 
 import { login, signup } from './actions'
 
+import { createClient } from '~/utils/supabase/client'
+
 export const metadata: Metadata = {
   title: 'Register',
 };
- 
+
 export default function LoginPage() {
+  const [error, setError] = useState<string | null>(null);
+  const supabase = createClient();
+  
+  const dataForm = {
+    email: formData.get('email') as string,
+    password: formData.get('password') as string,
+  }
+  
+  const onSubmit = async (data: LoginInput) => {
+	 const { data, error } = await supabase.auth.signInWithPassword(dataForm)
+    const result = await signIn(data);
+    if (error) {
+      setError(result.error);
+    }
+  };
+  
   return (
     <main className="flex items-center justify-center md:h-screen">
       <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
