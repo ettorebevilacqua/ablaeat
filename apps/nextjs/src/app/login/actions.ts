@@ -53,7 +53,7 @@ export async function signup(formData: FormData) {
       }) */
     }
   revalidatePath('/', 'layout')
-  redirect('/users/account')
+  redirect('/users/checkMail')
 }
 
  const handleEmailSignUpWithPress = async (email: string, password: string) => {
