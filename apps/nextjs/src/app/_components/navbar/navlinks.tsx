@@ -32,6 +32,9 @@ export default async function Navlinks({ user }: NavlinksProps) {
         <Link href="/users/login" className={s.link}>
             Login
           </Link>
+           <Link href="/users/account" className={s.link}>
+            Account
+          </Link>
       </div>
       )
       }

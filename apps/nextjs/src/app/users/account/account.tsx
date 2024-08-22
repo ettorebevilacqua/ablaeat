@@ -137,7 +137,7 @@ export default function Account({user}:any) {
             </svg>
           </div>
           <h2 className="text-center text-2xl font-bold leading-tight text-black">
-           User Account
+           User Account Profile
           </h2>
           <form onSubmit={handleSubmit(onSubmit)} action="/" className="mt-8">
             <div className="space-y-5">
@@ -207,7 +207,7 @@ export default function Account({user}:any) {
                   About me{" "}
                 </label>
                 <div className="mt-2">
-                <textarea rows="4" {...register('aboutme')}  name="aboutme" placeholder='Somethink about you' className="w-full" />
+                <textarea rows="4" {...register('aboutme')}  name="aboutme" placeholder='Somethink about you' className="w-full rounded-md border border-gray-300 bg-transparent" />
                 </div>
                 {errors.email && (
                   <p className="text-red-500">{errors.aboutme.message}</p>
@@ -222,7 +222,7 @@ export default function Account({user}:any) {
                     !isValid ? "bg-slate-400 hover:bg-slate-400" : undefined
                   } inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80`}
                 >
-                  {isSubmitting ? "Submitting..." : "Get started"}
+                  {isSubmitting ? "Submitting..." : "Save Profile"}
                 </button>
               </div>
             </div>
