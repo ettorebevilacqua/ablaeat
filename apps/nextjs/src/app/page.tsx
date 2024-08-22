@@ -21,7 +21,7 @@ export default function HomePage() {
       <main className="container h-screen py-16">
         <div className="flex flex-col items-center justify-center gap-4">
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-            ABLA<span className="text-primary">EAT x</span>
+            ABLA<span className="text-primary">EAT</span>
           </h1>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">

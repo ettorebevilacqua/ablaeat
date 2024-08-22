@@ -57,12 +57,12 @@ const signIn = () => {
               />
             </svg>
           </div>
-          <h2 className="text-center text-2xl font-bold leading-tight text-black">
+          <h2 className="text-center text-2xl font-bold leading-tight">
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 ">
             Don&apos;t have an account?{" "}
-				<Link title="" href="/users/signup" className="font-semibold text-black transition-all duration-200 hover:underline"> 
+				<Link title="" href="/users/signup" className="text-lg font-semibold transition-all duration-200 hover:underline"> 
 					Create a free account
 				</Link>
           </p>
@@ -71,7 +71,7 @@ const signIn = () => {
               <div>
                 <label
                   htmlFor=""
-                  className="text-base font-medium text-gray-900"
+                  className="text-base font-medium"
                 >
                   {" "}
                   Email Address{" "}
@@ -93,7 +93,7 @@ const signIn = () => {
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor=""
-                    className="text-base font-medium text-gray-900"
+                    className="text-base font-medium"
                   >
                     {" "}
                     Password{" "}

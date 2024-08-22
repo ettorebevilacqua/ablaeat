@@ -136,7 +136,7 @@ export default function Account({user}:any) {
               />
             </svg>
           </div>
-          <h2 className="text-center text-2xl font-bold leading-tight text-black">
+          <h2 className="text-center text-2xl font-bold leading-tight">
            User Account Profile
           </h2>
           <form onSubmit={handleSubmit(onSubmit)} action="/" className="mt-8">
@@ -159,7 +159,7 @@ export default function Account({user}:any) {
               <div>
                 <label
                   htmlFor=""
-                  className="text-base font-medium text-gray-900"
+                  className="text-base font-medium"
                 >
                   {" "}
                   Full name{" "}
@@ -180,7 +180,7 @@ export default function Account({user}:any) {
              <div>
                 <label
                   htmlFor=""
-                  className="text-base font-medium text-gray-900"
+                  className="text-base font-medium"
                 >
                   {" "}
                   Website{" "}
@@ -201,7 +201,7 @@ export default function Account({user}:any) {
 			  <div>
                 <label
                   htmlFor=""
-                  className="text-base font-medium text-gray-900"
+                  className="text-base font-medium"
                 >
                   {" "}
                   About me{" "}

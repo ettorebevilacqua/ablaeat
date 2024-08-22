@@ -65,12 +65,12 @@ const Signup = () => {
               />
             </svg>
           </div>
-          <h2 className="text-center text-2xl font-bold leading-tight text-black">
+          <h2 className="text-center text-2xl font-bold leading-tight">
             Sign in to your account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600 ">
+          <p className="mt-2 text-center text-sm ">
             You have an account?{" "}
-              	<Link title="" href="/users/login" className="font-semibold text-black transition-all duration-200 hover:underline"> 
+              	<Link title="" href="/users/login" className="font-semibold transition-all duration-200 hover:underline"> 
 					Sign up
 				</Link>
         
@@ -80,7 +80,7 @@ const Signup = () => {
               <div>
                 <label
                   htmlFor=""
-                  className="text-base font-medium text-gray-900"
+                  className="text-base font-medium"
                 >
                   {" "}
                   Email Address{" "}
@@ -102,7 +102,7 @@ const Signup = () => {
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor=""
-                    className="text-base font-medium text-gray-900"
+                    className="text-base font-medium"
                   >
                     {" "}
                     Password{" "}
@@ -110,7 +110,7 @@ const Signup = () => {
                   <a
                     href="#"
                     title=""
-                    className="text-sm font-semibold text-black hover:underline"
+                    className="text-sm font-semibold hover:underline"
                   >
                     {" "}
                     Forgot password?{" "}
