@@ -20,19 +20,6 @@ const registerSchema = z.object({
   password: z.string().min(6).max(100),
 });
 
-export const signUpSchema = z
-  .object({
-    email: z.string().email("Invalid email address"),
-    name: z.string(),
-    tc: z.boolean(),
-    password: z.string().min(6, "Password must be 6 characters long"),
-    password2: z.string(),
-  })
-  .refine((data) => data.password === data.password2, {
-    message: "Passwords must match",
-    path: ["confirmPassword"],
-  });
-  
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const supabase = createClient();
@@ -49,15 +36,7 @@ export default function LoginPage() {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   }
-  
-  const onSubmit = async (data: LoginInput) => {
-	 const { data, error } = await supabase.auth.signInWithPassword(dataForm)
-    const result = await signIn(data);
-    if (error) {
-      setError(result.error);
-    }
-  };
-  
+ 
   return (
     <main className="flex items-center justify-center md:h-screen">
       <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">

@@ -1,4 +1,11 @@
-'use client';
+"use client";
+
+import {
+  AtSymbolIcon,
+  ExclamationCircleIcon,
+  KeyIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 
 import { Button } from "@acme/ui/button";
 import {
@@ -11,14 +18,9 @@ import {
 } from "@acme/ui/form";
 import { Input } from "@acme/ui/input";
 import { toast } from "@acme/ui/toast";
+
 import { api } from "~/trpc/react";
 
-import {
-  AtSymbolIcon,
-  KeyIcon,
-  ExclamationCircleIcon,
-  UserIcon
-} from '@heroicons/react/24/outline';
 // import { ArrowRightIcon } from '@heroicons/react/20/solid';
 // import { useFormState, useFormStatus } from 'react-dom';
 
@@ -49,9 +51,9 @@ import {
 //   });
 
 export default function RegisterForm() {
- // const [errorMessage, formAction] = useFormState(register, null);
-  return <div>sssss</div>
-/*
+  // const [errorMessage, formAction] = useFormState(register, null);
+  return <div>sssss</div>;
+  /*
   return (
     <form action={formAction} className="space-y-3">
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">

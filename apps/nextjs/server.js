@@ -7,7 +7,7 @@ const { parse } = require("url");
 const fs = require("fs");
 
 const hostname = 'localhost'
-const port = 3001
+const port = 443
 const dev = process.env.NODE_ENV !== 'production'
   
 const app = next({dev, hostname, port });
