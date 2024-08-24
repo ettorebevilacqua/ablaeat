@@ -8,9 +8,7 @@ export default async function Page() {
     // console.log('supabase from createClient', supabase.auth)
 
 	const { data: { user },} = await supabase.auth.getUser()
-	
-	console.log('supabase from createClient user', user)
-	
+
     const handleError = (error, _widget) =>{
             setInfo(null);
             setError(error);

@@ -1,12 +1,9 @@
 import s from './navbar.module.css';
 import Navlinks from './navlinks';
-import { auth } from "@acme/auth";
-
+import { getUser } from "@acme/auth";
+    
 export default async function Navbar() {
-  const session = await auth();
-
- const user = session && session.user.name
-
+	const { user, error, status } = await getUser(); 
   return (
     <nav className={s.root}>
       <a href="#skip" className="sr-only focus:not-sr-only">

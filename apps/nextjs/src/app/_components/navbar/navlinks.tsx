@@ -7,13 +7,14 @@ import s from './navbar.module.css';
 import Logout  from "~/app/users/Logout";
 import LogIn  from "~/app/users/SignIn";
 import { getUser } from "@acme/auth";
+import DropDownAvatar from "./dropDownAvatar"
 
 interface NavlinksProps {
   user?: any;
 }
 
 export default async function Navlinks({ user }: NavlinksProps) {
-  const session = await auth();
+	  console.log('111 Navlinks user xxxx', user?.email);
   return (
     <div className="relative flex flex-row justify-between py-4 align-center md:py-6">
       <div className="flex items-center flex-1">
@@ -29,12 +30,18 @@ export default async function Navlinks({ user }: NavlinksProps) {
       </div>
       { 1===1 && (
       <div className="flex justify-end space-x-8">
-        <Link href="/users/login" className={s.link}>
-            Login
-          </Link>
+          {!user ? (
+			<Link href="/users/login" className={s.link}>
+				Login
+			</Link>)
+		: <>
            <Link href="/users/account" className={s.link}>
-            Account
-          </Link>
+				Account
+			</Link>
+
+          <DropDownAvatar user={user}/>
+           </>
+          }
       </div>
       )
       }
