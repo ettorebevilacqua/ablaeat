@@ -1,5 +1,5 @@
+import { Input } from "../input.tsx";
 import { FormFieldProps } from "./types";
-import {Input} from "../input.tsx"
 
 const FormField: React.FC<FormFieldProps> = ({
   type,
