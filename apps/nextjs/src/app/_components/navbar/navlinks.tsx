@@ -14,7 +14,6 @@ interface NavlinksProps {
 }
 
 export default async function Navlinks({ user }: NavlinksProps) {
-	  console.log('111 Navlinks user xxxx', user?.email);
   return (
     <div className="relative flex flex-row justify-between py-4 align-center md:py-6">
       <div className="flex items-center flex-1">
@@ -38,7 +37,10 @@ export default async function Navlinks({ user }: NavlinksProps) {
            <Link href="/users/account" className={s.link}>
 				Account
 			</Link>
-
+       <Link href="/users/plates" className={s.link}>
+				Plates
+			</Link>
+			
           <DropDownAvatar user={user}/>
            </>
           }

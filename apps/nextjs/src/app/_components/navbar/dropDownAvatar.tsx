@@ -11,7 +11,6 @@ import {   DropdownMenu,
 interface NavlinksProps {
   user?: any;
 }
-
     async function downloadImage(path: string) {
 	  const supabase = createClient()
 
@@ -22,7 +21,6 @@ interface NavlinksProps {
         }
 	  
         const url = URL.createObjectURL(data)
-        console.log('aaaa', data, url);
 		return url
       } catch (error) {
         console.log('Error downloading image: ', error)
@@ -32,7 +30,6 @@ interface NavlinksProps {
 const CustomAvatar = async ({user}:NavlinksProps) => {
     
     const imageData = await downloadImage(user?.avatar_url);
-    console.log('CustomAvatar user xxxx', imageData);
   return (
     <Avatar className="AvatarRoot">
       <AvatarImage
@@ -48,7 +45,6 @@ const CustomAvatar = async ({user}:NavlinksProps) => {
 };
 
 const DropdownAvatar = ({user}:NavlinksProps) => {
-	  console.log('DropdownAvatar user xxxx', user.email);
   return (
     <DropdownMenuTrigger asChild>
       <CustomAvatar user={user} />

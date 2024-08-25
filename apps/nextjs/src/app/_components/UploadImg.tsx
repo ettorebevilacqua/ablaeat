@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react'
 import { createClient } from '~/utils/supabase/client'
 import Image from 'next/image'
 import { Button } from "@acme/ui/button";
+import userImg from "/public/images/User.webp"
 
 export default function UploadImg({
   uid,
   url,
   size,
   onUpload,
-  bucket
+  bucket,
 }: {
   uid: string | null
   url: string | null
@@ -19,6 +20,9 @@ export default function UploadImg({
   const supabase = createClient()
   const [avatarUrl, setAvatarUrl] = useState<string | null>(url)
   const [uploading, setUploading] = useState(false)
+  const [filePath, setFilePath] = useState();
+
+	const empityImg = true;
 
   useEffect(() => {
     async function downloadImage(path: string) {
@@ -34,8 +38,9 @@ export default function UploadImg({
         console.log('Error downloading image: ', error)
       }
     }
-
-    if (url) downloadImage(url)
+    const _filePath = url ? url.split('/').pop() : null
+	setFilePath(_filePath);
+   // if (url) downloadImage(url)
   }, [url, supabase])
 
   const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
@@ -46,18 +51,28 @@ export default function UploadImg({
         throw new Error('You must select an image to upload.')
       }
 
+      if (!!filePath){
+		const {data, error} =  await supabase.storage.from(bucket).remove([filePath])
+		console.log(data, error);
+      }	
+      
       const file = event.target.files[0]
       const fileExt = file.name.split('.').pop()
-      const filePath = `${uid}-${Math.random()}.${fileExt}`
-
-      const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file)
+  
+	  const newFilePath = `${uid}-${Math.random()}.${fileExt}` 
+	  
+	  setFilePath(newFilePath);     
+      const { data, error: uploadError } = await supabase.storage.from(bucket).upload(newFilePath, file)
 
       if (uploadError) {
         throw uploadError
       }
 
-      onUpload(filePath)
+	  const pubUrl = supabase.storage.from(bucket).getPublicUrl(newFilePath)
+  
+      onUpload(pubUrl?.data?.publicUrl, newFilePath, data)
     } catch (error) {
+		console.log('error upload ', error);
       alert('Error uploading avatar!')
     } finally {
       setUploading(false)
@@ -66,12 +81,12 @@ export default function UploadImg({
 
   return (
     <div className="flex max-w-xs flex-row gap-4 rounded-xl items-center justify-center">
-      <div>{avatarUrl ? (
+      <div>{ empityImg ? (
         <Image
           width={size}
           height={size}
-          src={avatarUrl}
-          alt="Avatar"
+          src={url || userImg}
+          alt="Image"
           className="avatar image"
           style={{ height: size, width: size }}
         />

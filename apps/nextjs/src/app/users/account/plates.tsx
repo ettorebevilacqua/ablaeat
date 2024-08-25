@@ -2,12 +2,9 @@
 "use client";
 import { useState, useEffect, useCallback } from 'react';
 import { createClient } from '~/utils/supabase/client'
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import userImg from "/public/images/User.webp"
 
-import PlateCard  from '~/app/_components/PlateCard.tsx'
+import {PlateCard, PlateCardForm}  from '~/app/_components/PlateCard.tsx'
 import UploadImg  from '~/app/_components/UploadImg'
 import { Button } from "@acme/ui/button";
 import { Input } from "@acme/ui/input";
@@ -15,37 +12,12 @@ import { Label } from "@acme/ui/";
 
 export type Plate = {title:string | null; img:string | null; desc:string | null; like:z.number | null; } 
 
-export const PlateSchema = z.object({
-    title: z.string(),
-    img: z.string(),
-    desc: z.string(),
-    like: z.number()
-  });
-
-
-
 export default function Plates({user}:any) {
 	const [errorSub, setErrorSub] = useState<string | null>(null);
 	const [dataList, setDataList] = useState<Plate[] | null>(null) 
 	const supabase = createClient()
 	const [formData, setFormData] = useState({});
 	const [loading, setLoading] = useState(true)
-	const form = useForm({
-		schema: PlateSchema,
-		defaultValues: {
-		  title: "",
-		  img: "",
-		  desc:"",
-		  like:0,
-		},
-	});
- const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting, isValid },
-    defaultValues,
-  } = form
   
   const onUploadImg = (url) => {
           setAvatarUrl(url)
@@ -85,45 +57,6 @@ export default function Plates({user}:any) {
     getData()
   }, [user, getData])
 
-
-  async function updateProfile({
-    full_name,
-    aboutme,
-    avatar_url,
-  }: {
-    fullname: string | null
-    website: string | null
-    avatar_url: string | null
-  }) {
-	  console.log('onSubmit data', fullname, );
-    try {
-      setLoading(true)
-
-      const { error } = await supabase.from('profiles').upsert({
-        id: user?.id as string,
-        full_name,
-        aboutme,
-        avatar_url,
-        updated_at: new Date().toISOString(),
-      })
-      if (error){
-		console.log('error update profile', error);
-		alert('Error on update');
-		return false  
-	  } 
-      
-       alert('Profile updated!')
-    } catch (error) {
-      alert('Error updating the data!', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-  
-    async function onSubmit(dataForm) {
-		updateProfile({...dataForm, avatar_url});
-		console.log('onSubmit data', dataForm);
-	}
 	
     return(
    <section>
@@ -135,14 +68,13 @@ export default function Plates({user}:any) {
           </h2>
           
            <p>Add Plate </p>
-          <form onSubmit={handleSubmit(onSubmit)} action="/" className="mt-8">
-			
-          
-          </form>
+   
+			<PlateCardForm user={user}  />
+    
           
           { !dataList ? 'Empity' 
 			  :dataList.map((plate:Plates)=>
-				<PlateCard user={user} plate={plate} isValid={isValid} isSubmitting={isSubmitting} onUpload={onUploadImg}  />
+				<PlateCard user={user} plate={plate}  />
 			)}
           
           <div> 

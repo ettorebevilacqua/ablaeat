@@ -102,7 +102,8 @@ export default function Account({user}:any) {
       
        alert('Profile updated!')
     } catch (error) {
-      alert('Error updating the data!', error)
+	  console.log('error catch update profile', error);
+      alert('Error updating the data!')
     } finally {
       setLoading(false)
     }
