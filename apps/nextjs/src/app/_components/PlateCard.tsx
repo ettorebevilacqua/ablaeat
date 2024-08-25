@@ -151,17 +151,18 @@ export function PlateCardForm({user, plate, onSave }:PropsCard) {
 		</div>
 	 </CardContent>
 	 <CardDescription>
-	<Input
+	 </CardDescription>
+	<CardFooter>
+		   <Input
                     {...register("descr")}
                     name="descr"
                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     type="text"
                     placeholder="Description"
                   ></Input>
-        </Button>
-	 </CardDescription>
-	<CardFooter>
-		    <div className="mt-6">
+	</CardFooter>
+</Card>
+  <div className="mt-6">
                 <Button
                   type="submit"
                   disabled={!isValid}
@@ -172,9 +173,6 @@ export function PlateCardForm({user, plate, onSave }:PropsCard) {
                   {isSubmitting ? "Submitting..." : "Save Plate"}
                 </Button>
               </div>
-	</CardFooter>
-</Card>
- 
 </form>
   );
 }
