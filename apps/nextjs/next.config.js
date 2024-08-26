@@ -21,7 +21,7 @@ const config = {
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
   images: {
-    domains: ["res.cloudinary.com", 'ogplmnflybociuwhdqho.supabase.co'],
+    remotePatterns: ["res.cloudinary.com", 'ogplmnflybociuwhdqho.supabase.co'],
   },
 };
 

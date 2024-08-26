@@ -27,26 +27,18 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=18
+current_page=10
 FILE_NAME_0=3332;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fsrc%2Fapp%2F_components%2FPlateCard.tsx;0;4
 FILE_NAME_1=414;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fpackages%2Fui%2Fsrc%2Findex.ts;0;4
 FILE_NAME_2=6997;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fsrc%2Fapp%2Fusers%2Faccount%2Faccount.tsx;0;4
-FILE_NAME_3=0;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fsrc%2Fapp%2Fusers%2Fplates%2Fpage.tsx;0;4
+FILE_NAME_3=754;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fsrc%2Fapp%2Fusers%2Fplates%2Fpage.tsx;0;4
 FILE_NAME_4=93;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fsrc%2Fapp%2Fusers%2Faccount%2Fpage.tsx;0;4
 FILE_NAME_5=1674;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fsrc%2Fapp%2Fusers%2Faccount%2Fplates.tsx;0;4
 FILE_NAME_6=1217;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fsrc%2Fapp%2Fusers%2Fplates%2FplateList.tsx;0;4
 FILE_NAME_7=435;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fsrc%2Fapp%2F_components%2FUploadImg.tsx;0;4
 FILE_NAME_8=932;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fsrc%2Fapp%2Fusers%2Faccount%2FAvatar.tsx;0;4
 FILE_NAME_9=1250;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fsrc%2Fapp%2F_components%2Fnavbar%2Fnavlinks.tsx;0;4
-FILE_NAME_10=1109;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fpackages%2Fapi%2Fsrc%2Frouter%2Fusers.ts;0;4
-FILE_NAME_11=0;JSON;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fpackages%2Fapi%2Fpackage.json;0;4
-FILE_NAME_12=262;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fpackages%2Fauth%2Fsrc%2Findex.ts;0;4
-FILE_NAME_13=525;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fpackages%2Fauth%2Fsrc%2Findex.rsc.ts;0;4
-FILE_NAME_14=0;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fpackages%2Fapi%2Fsrc%2Ftrpc.ts;0;4
-FILE_NAME_15=1737;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fpackages%2Fauth%2Fsrc%2Fconfig.ts;0;4
-FILE_NAME_16=1159;JSON;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fpackages%2Fauth%2Fpackage.json;0;4
-FILE_NAME_17=264;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fpackages%2Fauth%2Fsrc%2FserverUser.ts;0;4
-FILE_NAME_18=663;Javascript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fnext.config.js;0;4
+FILE_NAME_10=0;None;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2F.gitignore;0;4
 
 [VTE]
 last_dir=/home/etto
