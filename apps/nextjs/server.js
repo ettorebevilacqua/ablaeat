@@ -13,8 +13,8 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({dev, hostname, port });
 
 const sslOptions = {
-    key: fs.readFileSync("../privkey.pem"),
-    cert: fs.readFileSync("../fullchain.pem")
+    key: fs.readFileSync(" ./certificates/privkey.pem"),
+    cert: fs.readFileSync("./certificates/fullchain.pem")
 }
 
 const handle = app.getRequestHandler()
