@@ -4,6 +4,23 @@ import { createClient } from '~/utils/supabase/client'
 import Image from 'next/image'
 import { Button } from "@acme/ui/button";
 import userImg from "/public/images/User.webp"
+import Resizer from "react-image-file-resizer";
+
+const resizeFile = (file:any) =>
+  new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      file,
+      800,
+      800,
+      "WEBP",
+      70,
+      0,
+      (uri) => {
+        resolve(uri);
+      },
+      "file"
+    );
+  });
 
 export default function UploadImg({
   uid,
@@ -53,16 +70,20 @@ export default function UploadImg({
 
       if (!!filePath){
 		const {data, error} =  await supabase.storage.from(bucket).remove([filePath])
-		console.log(data, error);
+		console.log('', data, error);
       }	
       
       const file = event.target.files[0]
-      const fileExt = file.name.split('.').pop()
-  
-	  const newFilePath = `${uid}-${Math.random()}.${fileExt}` 
-	  
-	  setFilePath(newFilePath);     
-      const { data, error: uploadError } = await supabase.storage.from(bucket).upload(newFilePath, file)
+      const image = await resizeFile(file);
+      const fileExt = 'webp' // file.name.split('.').pop()
+	
+	  const newFilePath = !!filePath ? filePath :  `${uid}-${Math.random()}.${fileExt}` 
+	  if (!filePath)  setFilePath(newFilePath);
+	
+      const { data, error: uploadError } = await supabase.storage.from(bucket).upload(newFilePath, image,{
+		cacheControl: '3600',
+		upsert: true
+	  })
 
       if (uploadError) {
         throw uploadError

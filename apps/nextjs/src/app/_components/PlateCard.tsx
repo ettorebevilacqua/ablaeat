@@ -24,20 +24,31 @@ export type Plate = {
 		img: string | null
 	  }
 	  
-export type PropsCard = { user:any; plate:Plate; onSave:(data:Plate)=>never }
-	  
-export function PlateCard({user, plate}:any) {
- const supabase = createClient()
- const deleteImg = async ()=>{
+export type PropsCard = { user:any; plate:Plate; onSave:(error:any, data:Plate)=>never }
+ 
+ async function deleteImg(supabase, plate, onSave){
 	  const _filePath = plate?.img ? plate.img.split('/').pop() : null
-	  if (!!_filePath){
-		const {data, error} =  await supabase.storage.from('plates').remove([_filePath])
+	
+	  const { data, error } = await supabase.from('users_images').delete().eq('id', plate.id);
+	  if (error){
+		onSave(error, null, plate);
+		return {data, error }
+	  } else  if (!!_filePath){ // const {data, error} =
+		const res =  await supabase.storage.from('plates').remove([_filePath])
 	  }
-	  const { data, error } = await supabase.from('plates').delete().eq('id', plate.id);
-	  if (!error) {
-		  alert('error on delete');
-	  }
+	  onSave(error , data, plate);
+	return  {data, error }
  }
+ 	  
+export function PlateCard({user, plate, onSave}:any) {
+ const supabase = createClient()
+ 
+ const handleDelete = useCallback(async ()=>{
+	const onDelete = (error, data, plate)=>onSave(error, data, plate)
+	const res = await deleteImg(supabase, plate, onDelete);
+	if (res.error) alert('error on delete');
+  }, [onSave, supabase])
+  
   return (
   <Card size="3">
 	 <CardTitle className="p-4 justify-center text-center text-2xl">
@@ -62,7 +73,7 @@ export function PlateCard({user, plate}:any) {
 		 <Button
           variant="ghost"
           className="cursor-pointer text-sm font-bold uppercase text-primary hover:bg-transparent hover:text-white"
-          onClick={() => deleteImg(plate.img)}
+          onClick={handleDelete}
         >
           Delete
         </Button>
@@ -104,7 +115,9 @@ export function PlateCardForm({user, plate, onSave }:PropsCard) {
 		console.log('error update plate', error);
 		alert('Error on update'+error);
 		return false  
-	  } 
+	  }
+	  setImgUrl(null);
+	  reset();
       onSave && onSave(data)
        alert('plate updated!')
     } catch (error) {

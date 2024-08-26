@@ -1,4 +1,3 @@
-import {PlateCard, PlateCardForm}  from '~/app/_components/PlateCard.tsx'
 import PlateList from "./plateList"
 import { Button } from "@acme/ui/button";
 import { Input } from "@acme/ui/input";
@@ -21,7 +20,7 @@ export default async function Page() {
           
            <p>Add Plate </p>
    
-			<PlateCardForm user={user}  />
+
 			<PlateList user={user} />
         </div>
       </div>

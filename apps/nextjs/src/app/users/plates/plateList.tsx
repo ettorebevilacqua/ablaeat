@@ -38,7 +38,7 @@ export default function PlatesList({user}:any) {
     }
   }, [user, supabase])
   
-  const onSavePlate = (data:Plate)=>getData();
+  const onSavePlate = (error:any, data:Plate)=>getData();
   
     useEffect(() => {
 		getData()
@@ -48,12 +48,13 @@ export default function PlatesList({user}:any) {
    <section>
       <div className="flex items-center justify-center px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
-          
+          			<PlateCardForm user={user} onSave={onSavePlate} />
+          <div>
           { !dataList ? 'Empity' 
 			  :dataList.map((plate:Plate)=>
 				<PlateCard key={plate.id} user={user} plate={plate} onSave={onSavePlate} />
 			)}
-          
+          </div>
         </div>
       </div>
     </section>
