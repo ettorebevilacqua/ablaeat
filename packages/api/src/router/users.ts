@@ -28,7 +28,7 @@ export const userRouter = {
       });
     }),
 
-  create: protectedProcedure
+  /* create: protectedProcedure
     .input(CreatePostSchema)
     .mutation(({ ctx, input }) => {
       return ctx.db.insert(User).values(input);
@@ -41,7 +41,7 @@ export const userRouter = {
   update: protectedProcedure.input(CreatePostSchema)
     .mutation(({ ctx, input }) => {
       return ctx.db.insert(User).values(input);
-    }),
+    }), */
 
 
 } satisfies TRPCRouterRecord;
