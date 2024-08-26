@@ -36,6 +36,7 @@
     "react-dom": "catalog:react18",
     "react-hook-form": "^7.52.1",
     "react-image-file-resizer": "^0.4.8",
+    "sharp": "^0.33.5",
     "superjson": "2.2.1",
     "url": "^0.11.4",
     "zod": "catalog:"
