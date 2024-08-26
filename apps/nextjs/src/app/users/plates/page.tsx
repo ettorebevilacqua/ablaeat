@@ -18,9 +18,6 @@ export default async function Page() {
            My prefer Plates
           </h2>
           
-           <p>Add Plate </p>
-   
-
 			<PlateList user={user} />
         </div>
       </div>

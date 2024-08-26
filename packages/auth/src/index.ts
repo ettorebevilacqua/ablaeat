@@ -6,7 +6,7 @@ export type { Session } from "next-auth";
 import { getUser } from './serverUser';
 
 const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
-export { getUser };
+export { getUser,auth, signIn, signOut };
 export {
   invalidateSessionToken,
   validateToken,
