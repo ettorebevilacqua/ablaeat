@@ -19,7 +19,7 @@ const signIn = () => {
   const [errorSub, setErrorSub] = useState<string | null>(null);
   const router = useRouter()
   const supabase = createClient();
-  const { user, error } = useAuth();
+  const { user, error, reload } = useAuth();
   
   if (!!user){
 	  router.push('/')
@@ -40,7 +40,8 @@ const signIn = () => {
 		// console.log('error desc', error);
 		setErrorSub(error.message);
 		return false
-	}  
+	}
+	reload();
 	router.push('/users/account')
 
     //reset();

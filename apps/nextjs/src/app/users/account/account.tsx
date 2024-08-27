@@ -20,7 +20,7 @@ export const accountSchema = z
   });
 
 export default function Account() {
-	const { user, error, setUser } = useAuth();
+	const { user, error, reload } = useAuth();
 	const [errorSub, setErrorSub] = useState<string | null>(null);
 	const supabase = createClient()
 	const [formData, setFormData] = useState({});
@@ -73,7 +73,7 @@ export default function Account() {
 		alert('Error on update');
 		return false  
 	  } 
-      setUser(dataForm);
+     reload();
        alert('Profile updated!')
     } catch (error) {
 	  console.log('error catch update profile', error);

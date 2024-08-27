@@ -1,5 +1,5 @@
 "use client"
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useCallback } from 'react';
 import { createClient } from "~/utils/supabase/client";
 
 export const AuthContext = createContext();
@@ -16,7 +16,7 @@ const loadProfiles = async (supabase:any, userID:string)=>{
 		console.log('getUser', error)
 		throw error
 	 }
-	     return {user:{...session, ...data}, error}
+	     return {user:data, error}
     } catch(error){
 		return {user:null, error}
 	}  
@@ -38,13 +38,27 @@ const AuthProvider = (props) => {
   const [user, setUser] = useState(props.user);
   const [session, setSession] = useState(props.session);
 	
+const reload =	useCallback(async ()=>{
+	const _session = await getSessionUser(supabase);
+	 if (_session) {
+	  setAuthenticated(true);
+	  setSession(_session);
+	  const res = await loadProfiles(supabase, _session.id);
+      if (res.user){
+		  setUser({..._session, ...res.user});
+	  } 
+    } else {
+		setUser(null);
+		setSession(session);
+	}
+})
   /*useEffect(() => {
 	const fetchUserData =  async () => {
     const session = await getSessionUser(supabase);
     if (session) {
 	  setAuthenticated(true);
 	  setSession(session);
-	  const { user, error } = await loadProfiles(supabase, session);
+	  const { data, error } = await loadProfiles(supabase, session);
       
       setUser({...session, ...user});
     } else setUser(null);
@@ -53,14 +67,13 @@ const AuthProvider = (props) => {
   }, [supabase]);
   */
   
+  
   useEffect(() => {
 	  
     const handleAuthStateChange = async (event, session) => {
 	  if (event === 'INITIAL_SESSION') {
 	  } else if (event === 'SIGNED_IN') {
-		 const prof= await loadProfiles(supabase, session.user.id);
-		 session && setSession(session);
-		 data && setUser({...session, ...prof.data});
+		 reload();
 	  } else if (event === 'SIGNED_OUT') {
 		setSession(null);
 		setUser(null)
@@ -69,9 +82,7 @@ const AuthProvider = (props) => {
 	  } else if (event === 'TOKEN_REFRESHED') {
 		// handle token refreshed event
 	  } else if (event === 'USER_UPDATED') {
-		 const prof= await loadProfiles(supabase, session);
-		 session && setSession(session);
-		 data && setUser({...session, ...prof.data});
+		 reload();
 	  }
       
     };
@@ -83,7 +94,7 @@ const AuthProvider = (props) => {
   }, [supabase]);
 
   return (
-    <AuthContext.Provider value={{ authenticated, user, setUser }}>
+    <AuthContext.Provider value={{ authenticated, user, setUser, reload }}>
       {children}
     </AuthContext.Provider>
   );
