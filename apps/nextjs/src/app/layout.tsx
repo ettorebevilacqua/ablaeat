@@ -7,10 +7,12 @@ import { ThemeProvider, ThemeToggle } from "@acme/ui/theme";
 import { Toaster } from "@acme/ui/toast";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { Providers } from "~/hooks/providers";
 
 import "~/app/globals.css";
 
 import Navbar from "./_components/navbar";
+import { getUser } from "@acme/auth";
 
 import { env } from "~/env";
 
@@ -43,6 +45,8 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
+	const { user, session, error } = await getUser();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -52,22 +56,25 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           GeistMono.variable,
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-
-          <TRPCReactProvider>
-            <main
-              id="skip"
-              className="min-h-[calc(100dvh-4rem)] md:min-h[calc(100dvh-5rem)]"
-            >
-            <Navbar />
-              {props.children}
-            </main>
-          </TRPCReactProvider>
-          <div className="absolute bottom-4 right-4">
-            <ThemeToggle />
-          </div>
-          <Toaster />
-        </ThemeProvider>
+  	      <Providers user={user} session={session} >
+			<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+			  <TRPCReactProvider>
+		
+				<main
+				  id="skip"
+				  className="min-h-[calc(100dvh-4rem)] md:min-h[calc(100dvh-5rem)]"
+				>
+				<Navbar />
+				  {props.children}
+				</main>
+				   
+			  </TRPCReactProvider>
+			  <div className="absolute bottom-4 right-4">
+				<ThemeToggle />
+			  </div>
+			  <Toaster />
+			</ThemeProvider>
+     </Providers>
       </body>
     </html>
   );

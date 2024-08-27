@@ -1,7 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { getUser } from "@acme/auth";
-import {createClient} from "./server"
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -36,7 +35,7 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  const user = await getUser()
+  const user = await supabase.auth.getUser()
   
   // console.log('middleware user xxx', user);
   if (

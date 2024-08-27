@@ -1,9 +1,7 @@
 import AccountForm from "./account";
 import { redirect } from 'next/navigation'
-import { getUser } from "@acme/auth";
 
 export default async function Page() {
-     const { user, error } = await getUser(); 
 
   /*  const handleError = (error, _widget) =>{
             setInfo(null);
@@ -15,6 +13,6 @@ export default async function Page() {
         widget.close({ quiet: true, });
     } */
     return (
-		<AccountForm user={user} />
+		<AccountForm />
     );
 }

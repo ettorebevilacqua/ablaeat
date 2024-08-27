@@ -1,19 +1,21 @@
 
-    "use server";
-    import { auth, signIn, signOut } from "@acme/auth";
-    import { Button } from "@acme/ui/button";
+"use client";
 
-    export default async function Logout() {
+import { useRouter } from 'next/navigation'
+import { Button } from "@acme/ui/button";
+import { createClient } from "~/utils/supabase/client";
 
-       return   <form>
-            <Button
-              size="lg"
-              formAction={async () => {
-                "use server";
-                await signOut();
-              }}
-            >
-              Sign out
-            </Button>
-      </form>
-    }
+export default function Logout() {
+	const supabase = createClient();
+	  const router = useRouter()
+   return(  
+		<Button
+		  size="lg"
+		  onClick={()=>{
+			  supabase.auth.signOut()
+			  router.push('/')
+		  }}
+		>
+		  Sign out
+		</Button>
+)}

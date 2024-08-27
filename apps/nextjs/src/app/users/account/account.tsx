@@ -7,6 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import userImg from "/public/images/User.webp"
 import Plates from "./plates";
+import { useAuth } from '~/hooks/useAuth'
 
 import Avatar  from './Avatar'
 import { Button } from "@acme/ui/button";
@@ -18,7 +19,8 @@ export const accountSchema = z
     aboutme: z.string(),
   });
 
-export default function Account({user}:any) {
+export default function Account() {
+	const { user, error, setUser } = useAuth();
 	const [errorSub, setErrorSub] = useState<string | null>(null);
 	const supabase = createClient()
 	const [formData, setFormData] = useState({});
@@ -39,39 +41,10 @@ export default function Account({user}:any) {
    // resolver: zodResolver(accountSchema),
   });
 
-  const getProfile = useCallback(async () => {
-    try {
-      setLoading(true)
-
-      const { data, error, status } = await supabase
-        .from('profiles')
-        .select(`full_name, website, aboutme, avatar_url`)
-        .eq('id', user?.id)
-        .single()
-
-      if (error && status !== 406) {
-        console.log('ERROR ACCOUNT', error)
-        // throw error
-      }
-
-      if (data) {
-		  console.log('fill forn ', data);
-		  // setFormData({ defaultValues: { ...defaultValues, ...data } });
-      // Reset the form with new default values
-        reset(data);
-        setAvatarUrl(data.avatar_url)
-      }
-    } catch (error) {
-		 console.log('ERROR ACCOUNT catch', error)
-      // alert('Error loading user data!')
-    } finally {
-      setLoading(false)
-    }
-  }, [user, supabase])
-
   useEffect(() => {
-    getProfile()
-  }, [user, getProfile])
+	   reset(user);
+     setAvatarUrl(user?.avatar_url)
+  }, [user])
 
 
   async function updateProfile({
@@ -86,20 +59,21 @@ export default function Account({user}:any) {
 	  console.log('onSubmit data', fullname, );
     try {
       setLoading(true)
-
-      const { error } = await supabase.from('profiles').upsert({
+	  const dataForm = {
         id: user?.id as string,
         full_name,
         aboutme,
         avatar_url,
         updated_at: new Date().toISOString(),
-      })
+      }
+     const upProf =  await supabase.from('profiles').upsert(dataForm)
+      const { data, error } =upProf
       if (error){
 		console.log('error update profile', error);
 		alert('Error on update');
 		return false  
 	  } 
-      
+      setUser(dataForm);
        alert('Profile updated!')
     } catch (error) {
 	  console.log('error catch update profile', error);
@@ -110,14 +84,12 @@ export default function Account({user}:any) {
   }
   
     async function onSubmit(dataForm) {
-    updateProfile({...dataForm, avatar_url});
-
-    console.log('onSubmit data', dataForm);
-
-  }
+		updateProfile({...dataForm, avatar_url});
+		console.log('onSubmit data', dataForm);
+	}
 
  if (!user) {
-    return <h3>User not found</h3>
+    return <h2>User not found</h2>
  }
     return(
    <section>
@@ -138,7 +110,7 @@ export default function Account({user}:any) {
         size={150}
         onUpload={(url) => {
           setAvatarUrl(url)
-          updateProfile({...formData, avatar_url: url })
+          // updateProfile({...formData, avatar_url: url })
         }}
       />
          </div>     

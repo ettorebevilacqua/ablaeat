@@ -45,14 +45,14 @@ export default function Avatar({
         }
 
         const url = URL.createObjectURL(data)
-        console.log('avatar url', url);
         setAvatarUrl(url)
       } catch (error) {
         console.log('Error downloading image avatar: ', error)
       }
     }
 
-    if (url) downloadImage(url)
+    if (url && !url.src) downloadImage(url)
+
   }, [url, supabase])
 
   const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (event) => {

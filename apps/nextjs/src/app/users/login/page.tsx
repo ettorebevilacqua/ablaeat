@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState} from "react"
 import { useRouter } from 'next/navigation'
 import Link from 'next/link';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { createClient } from '~/utils/supabase/client'
+import { useAuth } from '~/hooks/useAuth'
 
 export const signInSchema = z
   .object({
@@ -18,6 +19,11 @@ const signIn = () => {
   const [errorSub, setErrorSub] = useState<string | null>(null);
   const router = useRouter()
   const supabase = createClient();
+  const { user, error } = useAuth();
+  
+  if (!!user){
+	  router.push('/')
+  }
   
   const {
     register,

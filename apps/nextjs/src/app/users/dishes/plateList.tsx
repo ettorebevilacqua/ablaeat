@@ -2,14 +2,17 @@
 import { useState, useEffect, useCallback } from 'react';
 import {PlateCard, PlateCardForm}  from '~/app/_components/PlateCard.tsx';
 import { createClient } from '~/utils/supabase/client'
+import { useAuth } from '~/hooks/useAuth'
 
 export type Plate = {title:string | null; img:string | null; desc:string | null; like: number | null; } 
 
-export default function PlatesList({user}:any) {
+export default function PlatesList() {
+	
 	const supabase = createClient()
 	const [loading, setLoading] = useState(true)
 	const [errorSub, setErrorSub] = useState<string | null>(null);
-	const [dataList, setDataList] = useState<Plate[] | null>(null) 
+	const [dataList, setDataList] = useState<Plate[] | null>(null)
+	const { user, error } = useAuth();
     
     const getData = useCallback(async () => {
     try {

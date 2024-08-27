@@ -1,18 +1,17 @@
-// 'use client';
+'use client';
 
-import { auth, signIn, signOut } from "@acme/auth";
+import React, { useState, useContext } from 'react'
 import Link from 'next/link';
 import Logo from "~/app/_components/icons/Logo";
 import s from './navbar.module.css';
 import Logout  from "~/app/users/Logout";
 import LogIn  from "~/app/users/SignIn";
 import DropDownAvatar from "./dropDownAvatar"
+import { useAuth } from '~/hooks/useAuth'
 
-interface NavlinksProps {
-  user?: any;
-}
+export default function Navlinks() {
+  const { user, error } = useAuth();
 
-export default async function Navlinks({ user }: NavlinksProps) {
   return (
     <div className="relative flex flex-row justify-between py-4 align-center md:py-6">
       <div className="flex items-center flex-1">
@@ -38,7 +37,7 @@ export default async function Navlinks({ user }: NavlinksProps) {
 				Account
 			</Link>
        <Link href="/users/dishes" className={s.link}>
-				Plates
+				Dishes
 			</Link>
 			
           <DropDownAvatar user={user}/>
