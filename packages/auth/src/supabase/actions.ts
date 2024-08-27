@@ -71,13 +71,14 @@ export async function signOut(){
     })
     if (error) {
       console.log('error', error)
-      toast.show('Sign up failed', {
+      /* toast.show('Sign up failed', {
         message: error.message,
-      })
+      })*/ 
     } else if (data?.user) {
-      toast.show('Email Confirmation', {
+      /* toast.show('Email Confirmation', {
         message: 'Check your email ',
       })
+      */
       push('/')
     }
   }
