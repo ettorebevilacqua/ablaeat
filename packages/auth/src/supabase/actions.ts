@@ -79,6 +79,6 @@ export async function signOut(){
         message: 'Check your email ',
       })
       */
-      push('/')
+     //  push('/')
     }
   }
