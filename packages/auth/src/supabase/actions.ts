@@ -33,12 +33,12 @@ export async function signup(formData: FormData) {
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
-  const data = {
+  const dataForm = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   }
 
-  const { error } = await supabase.auth.signUp(data)
+  const { data, error } = await supabase.auth.signUp(dataForm)
 
   if (error) {
       console.log('error', error)
@@ -64,6 +64,7 @@ export async function signOut(){
 }
 
  const handleEmailSignUpWithPress = async (email: string, password: string) => {
+	const supabase = await createClient()
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
