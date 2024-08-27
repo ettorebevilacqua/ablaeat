@@ -52,6 +52,7 @@ dist/
 .turbo
 
 #geany
-
+src.geany
+apps/nextjs/src/src.geany
 ablaeat.geany
 apps.geany
