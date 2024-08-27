@@ -5,6 +5,7 @@ import { authConfig } from "./config";
 
 export type { Session } from "next-auth";
 import { getUser, getSession } from './supabase/session';
+import { createClient } from './supabase/server';
 import { signOut } from './supabase/actions';
 
  const { handlers, auth: defaultAuth, signIn } = NextAuth(authConfig);
