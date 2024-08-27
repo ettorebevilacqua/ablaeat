@@ -3,10 +3,12 @@ import NextAuth from "next-auth";
 import { authConfig } from "./config";
 
 export type { Session } from "next-auth";
-import { getUser } from './serverUser';
+import { getUser, getSession } from './supabase/session';
+import { signOut } from './supabase/actions';
 
-const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
-export { getUser,auth, signIn, signOut };
+const { handlers, auth, signIn } = NextAuth(authConfig);
+export { handlers, auth, signIn };
+export { getUser, getSession, signOut };
 export {
   invalidateSessionToken,
   validateToken,
