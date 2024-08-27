@@ -7,10 +7,7 @@ export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   })
-	
 
-
-// console.log('middleware xxxx yyyyyy',  supabase.auth.getUser);
   // IMPORTANT: Avoid writing any logic between createServerClient and
   // supabase.auth.getUser(). A simple mistake could make it very hard to debug
   // issues with users being randomly logged out.
@@ -38,9 +35,6 @@ export async function updateSession(request: NextRequest) {
       }
     }
   );
-
-	const uu = await supabase.auth.getUser()
-	// console.log('middleware user xxssssx', uu.data.user.id);
 
   const user = await getUser()
   

@@ -6,7 +6,6 @@ import Logo from "~/app/_components/icons/Logo";
 import s from './navbar.module.css';
 import Logout  from "~/app/users/Logout";
 import LogIn  from "~/app/users/SignIn";
-import { getUser } from "@acme/auth";
 import DropDownAvatar from "./dropDownAvatar"
 
 interface NavlinksProps {
@@ -33,15 +32,17 @@ export default async function Navlinks({ user }: NavlinksProps) {
 			<Link href="/users/login" className={s.link}>
 				Login
 			</Link>)
-		: <>
+		:
+		<>
            <Link href="/users/account" className={s.link}>
 				Account
 			</Link>
-       <Link href="/users/plates" className={s.link}>
+       <Link href="/users/dishes" className={s.link}>
 				Plates
 			</Link>
 			
           <DropDownAvatar user={user}/>
+          <Logout />
            </>
           }
       </div>

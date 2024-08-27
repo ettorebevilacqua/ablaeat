@@ -15,7 +15,7 @@ export default async function Page() {
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
           
           <h2 className="text-center text-2xl font-bold leading-tight">
-           My prefer Plates
+           My prefer Dishes
           </h2>
           
 			<PlateList user={user} />

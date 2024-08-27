@@ -53,6 +53,7 @@ dist/
 
 #geany
 src.geany
+*.geany
 apps/nextjs/src/src.geany
 ablaeat.geany
 apps.geany

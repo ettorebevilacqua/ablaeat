@@ -1,15 +1,11 @@
-
-import { createClient } from '~/utils/supabase/server'
 import AccountForm from "./account";
 import { redirect } from 'next/navigation'
+import { getUser } from "@acme/auth";
 
 export default async function Page() {
-    const supabase = await createClient()
-    // console.log('supabase from createClient', supabase.auth)
+     const { user, error } = await getUser(); 
 
-	const { data: { user },} = await supabase.auth.getUser()
-
-    const handleError = (error, _widget) =>{
+  /*  const handleError = (error, _widget) =>{
             setInfo(null);
             setError(error);
     }
@@ -17,7 +13,7 @@ export default async function Page() {
         setInfo(result?.info);
         setError(null);
         widget.close({ quiet: true, });
-    } 
+    } */
     return (
 		<AccountForm user={user} />
     );
