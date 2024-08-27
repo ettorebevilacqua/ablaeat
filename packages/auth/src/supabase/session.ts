@@ -8,9 +8,7 @@ const getSessionUser = async (): Promise<any | null> => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-    
-  return user;
-  
+	return user;
   };
   
   export const getSession =getSessionUser;
@@ -33,7 +31,7 @@ const getSessionUser = async (): Promise<any | null> => {
 	 }
 	     return {user:{...session, ...data}, error}
     } catch(error){
-		return {user:null, error}
+		return {user:null, session, error}
 	}    
    
 };
