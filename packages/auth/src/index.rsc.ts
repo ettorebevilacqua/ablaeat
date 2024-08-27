@@ -17,7 +17,7 @@ import { signOut } from './supabase/actions';
 const auth = cache(defaultAuth);
 
 export { handlers, auth };
-export { getUser, getSession, signOut };
+export { getUser, getSession, signOut, createClient };
 
 export {
   invalidateSessionToken,
