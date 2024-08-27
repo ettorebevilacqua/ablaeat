@@ -138,7 +138,6 @@ export default function Account({user}:any) {
         size={150}
         onUpload={(url) => {
           setAvatarUrl(url)
-          console,log('url avatar', url);
           updateProfile({...formData, avatar_url: url })
         }}
       />

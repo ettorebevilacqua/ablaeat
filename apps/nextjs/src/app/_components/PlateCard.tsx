@@ -88,7 +88,7 @@ export function PlateCardForm({user, plate, onSave }:PropsCard) {
 	const [imgUrl, setImgUrl] = useState(plate?.img === 'null' ? null : plate?.img);
 
 	const supabase = createClient()
-		
+	
 	const form = useForm() // { resolver: zodResolver(accountSchema),});
   const {
     register,
@@ -98,7 +98,7 @@ export function PlateCardForm({user, plate, onSave }:PropsCard) {
     defaultValues,
   } = form;
 	
-	async function updatePlate({ title,descr,img, imgUrl}: Plate) {
+	const updatePlate = useCallback(async ({ title,descr,img, imgUrl}: Plate)  =>  {
 	  // console.log('onSubmit data', fullname, );
     try {
       setLoading(true)
@@ -127,9 +127,9 @@ export function PlateCardForm({user, plate, onSave }:PropsCard) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [setLoading, user, setImgUrl, onSave])
   	
-	async function onSubmit(dataForm) {
+	function onSubmit(dataForm) {
 		updatePlate({...dataForm, imgUrl});
 		console.log('onSubmit data', dataForm);
 	}

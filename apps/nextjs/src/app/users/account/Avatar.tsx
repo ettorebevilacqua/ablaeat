@@ -3,7 +3,24 @@ import React, { useEffect, useState } from 'react'
 import { createClient } from '~/utils/supabase/client'
 import Image from 'next/image'
 import { Button } from "@acme/ui/button";
+import Resizer from "react-image-file-resizer";
 
+const resizeFile = (file:any) =>
+  new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      file,
+      400,
+      400,
+      "WEBP",
+      80,
+      0,
+      (uri) => {
+        resolve(uri);
+      },
+      "file"
+    );
+  });
+  
 export default function Avatar({
   uid,
   url,
@@ -28,9 +45,10 @@ export default function Avatar({
         }
 
         const url = URL.createObjectURL(data)
+        console.log('avatar url', url);
         setAvatarUrl(url)
       } catch (error) {
-        console.log('Error downloading image: ', error)
+        console.log('Error downloading image avatar: ', error)
       }
     }
 
@@ -46,10 +64,11 @@ export default function Avatar({
       }
 
       const file = event.target.files[0]
-      const fileExt = file.name.split('.').pop()
+      const image = await resizeFile(file);
+      const fileExt = image.name.split('.').pop()
       const filePath = `${uid}-${Math.random()}.${fileExt}`
 
-      const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file)
+      const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, image)
 
       if (uploadError) {
         throw uploadError
@@ -57,6 +76,7 @@ export default function Avatar({
 
       onUpload(filePath)
     } catch (error) {
+		console.log('Error uploading avatar!', error);
       alert('Error uploading avatar!')
     } finally {
       setUploading(false)

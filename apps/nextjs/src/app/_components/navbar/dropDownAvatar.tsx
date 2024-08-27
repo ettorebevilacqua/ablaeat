@@ -1,4 +1,5 @@
 'use client'
+import { useState, useEffect, useCallback } from 'react';
 import { Button } from "@acme/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@acme/ui/avatar";
 import userImg from "/public/images/User.webp"
@@ -27,9 +28,15 @@ interface NavlinksProps {
       }
     }
 
-const CustomAvatar = async ({user}:NavlinksProps) => {
+const CustomAvatar = ({user}:NavlinksProps) => {
+    const supabase = createClient()
+    const [imageData, setImageData] = useState();
     
-    const imageData = await downloadImage(user?.avatar_url);
+    useEffect(()=>{
+		downloadImage(user?.avatar_url).then(setImageData);
+	},[]);
+
+    // const imageData = supabase.storage.from('avatars').getPublicUrl(user?.avatar_url)
   return (
     <Avatar className="AvatarRoot">
       <AvatarImage

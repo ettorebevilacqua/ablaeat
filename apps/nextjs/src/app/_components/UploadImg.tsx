@@ -52,7 +52,7 @@ export default function UploadImg({
         const url = URL.createObjectURL(data)
         setAvatarUrl(url)
       } catch (error) {
-        console.log('Error downloading image: ', error)
+        console.log('Error downloading image: xx', error)
       }
     }
     const _filePath = url ? url.split('/').pop() : null
