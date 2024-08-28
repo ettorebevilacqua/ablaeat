@@ -1,8 +1,8 @@
+import { redirect } from "next/navigation";
+
 import AccountForm from "./account";
-import { redirect } from 'next/navigation'
 
 export default async function Page() {
-
   /*  const handleError = (error, _widget) =>{
             setInfo(null);
             setError(error);
@@ -12,7 +12,5 @@ export default async function Page() {
         setError(null);
         widget.close({ quiet: true, });
     } */
-    return (
-		<AccountForm />
-    );
+  return <AccountForm />;
 }

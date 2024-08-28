@@ -1,8 +1,10 @@
-"use client"
-import React, { useState, useContext } from 'react'
+"use client";
+
+import React, { useContext, useState } from "react";
+
 import { AuthContext } from "./authProvider";
 
 export const useAuth = () => {
-  const context = useContext(AuthContext)
-  return context
-}
+  const context = useContext(AuthContext);
+  return context;
+};

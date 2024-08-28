@@ -1,10 +1,11 @@
 "use client";
 
-import { api } from "~/trpc/react";
-import { toast } from "@acme/ui/toast";
 import { Button } from "@acme/ui/button";
+import { toast } from "@acme/ui/toast";
 
-const renderLoading = ()=>"<h2>loading...</h2>"
+import { api } from "~/trpc/react";
+
+const renderLoading = () => "<h2>loading...</h2>";
 
 export function UserCard(props: {
   user: RouterOutputs["user"]["all"][number];
@@ -24,17 +25,17 @@ export function UserCard(props: {
   });
 
   return (
-    <div className="flex flex-row rounded-lg bg-muted p-4 gap-4">
-       <div >
-        <img src={props.user.image} width="70" heigth="70"/>
+    <div className="flex flex-row gap-4 rounded-lg bg-muted p-4">
+      <div>
+        <img src={props.user.image} width="70" heigth="70" />
       </div>
 
-      <div >
+      <div>
         <h4 className="text-2xl font-bold text-primary">{props.user.name}</h4>
         <p className="mt-2 text-sm">{props.user.email}</p>
       </div>
       <div className="flex-grow">
-        Email Verified : {props.user.emailVerified ? 'yes' : 'no'}
+        Email Verified : {props.user.emailVerified ? "yes" : "no"}
       </div>
       <div>
         <Button
@@ -50,15 +51,14 @@ export function UserCard(props: {
 }
 
 export function UsersList() {
-
   const [users, aa] = api.user.all.useSuspenseQuery();
-  console.log('users ', users, aa);
-  if (!aa.isFetched){
-    return renderLoading()
+  console.log("users ", users, aa);
+  if (!aa.isFetched) {
+    return renderLoading();
   }
 
-  if (!!aa.error){
-    return <h2>Error on data loading {aa.error}</h2>
+  if (!!aa.error) {
+    return <h2>Error on data loading {aa.error}</h2>;
   }
 
   if (users.length === 0) {
@@ -72,8 +72,10 @@ export function UsersList() {
   }
 
   return (
-    <div className="flex w-full flex-col gap-4"> 
-    {users.map((p) => { return <UserCard key={p.id} user={p} /> })}
+    <div className="flex w-full flex-col gap-4">
+      {users.map((p) => {
+        return <UserCard key={p.id} user={p} />;
+      })}
     </div>
   );
 }

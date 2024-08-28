@@ -1,30 +1,30 @@
-"use client"
+"use client";
 
-import { useState} from "react"
-import { useRouter } from 'next/navigation'
-import Link from 'next/link';
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { createClient } from '~/utils/supabase/client'
-import { useAuth } from '~/hooks/useAuth'
 
-export const signInSchema = z
-  .object({
-    email: z.string().email("Invalid email address"),
-    password: z.string().min(6, "Password must be 6 characters long"),
-  });
+import { useAuth } from "~/hooks/useAuth";
+import { createClient } from "~/utils/supabase/client";
+
+export const signInSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be 6 characters long"),
+});
 
 const signIn = () => {
   const [errorSub, setErrorSub] = useState<string | null>(null);
-  const router = useRouter()
+  const router = useRouter();
   const supabase = createClient();
   const { user, error, reload } = useAuth();
-  
-  if (!!user){
-	  router.push('/')
+
+  if (!!user) {
+    router.push("/");
   }
-  
+
   const {
     register,
     handleSubmit,
@@ -33,20 +33,20 @@ const signIn = () => {
   } = useForm({
     resolver: zodResolver(signInSchema),
   });
-  
+
   async function onSubmit(dataForm) {
-	const { data, error } = await supabase.auth.signInWithPassword(dataForm)
-	if (error) {
-		// console.log('error desc', error);
-		setErrorSub(error.message);
-		return false
-	}
-	reload();
-	router.push('/users/account')
+    const { data, error } = await supabase.auth.signInWithPassword(dataForm);
+    if (error) {
+      // console.log('error desc', error);
+      setErrorSub(error.message);
+      return false;
+    }
+    reload();
+    router.push("/users/account");
 
     //reset();
   }
-  
+
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
@@ -68,19 +68,20 @@ const signIn = () => {
           <h2 className="text-center text-2xl font-bold leading-tight">
             Sign in to your account
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600 ">
+          <p className="mt-2 text-center text-sm text-gray-600">
             Don&apos;t have an account?{" "}
-				<Link title="" href="/users/signup" className="text-lg font-semibold transition-all duration-200 hover:underline"> 
-					Create a free account
-				</Link>
+            <Link
+              title=""
+              href="/users/signup"
+              className="text-lg font-semibold transition-all duration-200 hover:underline"
+            >
+              Create a free account
+            </Link>
           </p>
           <form onSubmit={handleSubmit(onSubmit)} action="/" className="mt-8">
             <div className="space-y-5">
               <div>
-                <label
-                  htmlFor=""
-                  className="text-base font-medium"
-                >
+                <label htmlFor="" className="text-base font-medium">
                   {" "}
                   Email Address{" "}
                 </label>
@@ -99,10 +100,7 @@ const signIn = () => {
               </div>
               <div>
                 <div className="flex items-center justify-between">
-                  <label
-                    htmlFor=""
-                    className="text-base font-medium"
-                  >
+                  <label htmlFor="" className="text-base font-medium">
                     {" "}
                     Password{" "}
                   </label>
@@ -142,8 +140,9 @@ const signIn = () => {
               </div>
             </div>
           </form>
-           <div> 
-				<br /><p className="text-red-500">{errorSub}</p>
+          <div>
+            <br />
+            <p className="text-red-500">{errorSub}</p>
           </div>
         </div>
       </div>

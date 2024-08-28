@@ -1,5 +1,5 @@
-import s from './navbar.module.css';
-import Navlinks from './navlinks';
+import s from "./navbar.module.css";
+import Navlinks from "./navlinks";
 
 export default async function Navbar() {
   return (
@@ -7,7 +7,7 @@ export default async function Navbar() {
       <a href="#skip" className="sr-only focus:not-sr-only">
         Skip to content
       </a>
-      <div className="max-w-6xl px-6 mx-auto">
+      <div className="mx-auto max-w-6xl px-6">
         <Navlinks />
       </div>
     </nav>

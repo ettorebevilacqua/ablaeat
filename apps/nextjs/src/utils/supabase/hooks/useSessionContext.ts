@@ -1,1 +1,1 @@
-export { useSession } from '@supabase/supabase-js'
+export { useSession } from "@supabase/supabase-js";

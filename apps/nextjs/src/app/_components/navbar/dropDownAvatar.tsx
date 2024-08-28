@@ -1,42 +1,49 @@
-'use client'
-import { useState, useEffect, useCallback } from 'react';
-import { Button } from "@acme/ui/button";
-import { Avatar, AvatarImage, AvatarFallback } from "@acme/ui/avatar";
-import userImg from "/public/images/User.webp"
-import { createClient } from '~/utils/supabase/client'
+"use client";
 
-import {   DropdownMenu,
+import { useCallback, useEffect, useState } from "react";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@acme/ui/avatar";
+import { Button } from "@acme/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuContent, DropdownMenuItem} from "@acme/ui/dropdown-menu";
+} from "@acme/ui/dropdown-menu";
+
+import { createClient } from "~/utils/supabase/client";
+import userImg from "/public/images/User.webp";
 
 interface NavlinksProps {
   user?: any;
 }
-    async function downloadImage(path: string) {
-	  const supabase = createClient()
+async function downloadImage(path: string) {
+  const supabase = createClient();
 
-      try {
-        const { data, error } = await supabase.storage.from('avatars').download(path)
-        if (error) {
-          throw error
-        }
-	  
-        const url = URL.createObjectURL(data)
-		return url
-      } catch (error) {
-        console.log('Error downloading image: ', error)
-      }
+  try {
+    const { data, error } = await supabase.storage
+      .from("avatars")
+      .download(path);
+    if (error) {
+      throw error;
     }
 
-const CustomAvatar = ({user}:NavlinksProps) => {
-    const supabase = createClient()
-    const [imageData, setImageData] = useState();
-    
-    useEffect(()=>{
-		downloadImage(user?.avatar_url).then(setImageData);
-	},[]);
+    const url = URL.createObjectURL(data);
+    return url;
+  } catch (error) {
+    console.log("Error downloading image: ", error);
+  }
+}
 
-    // const imageData = supabase.storage.from('avatars').getPublicUrl(user?.avatar_url)
+const CustomAvatar = ({ user }: NavlinksProps) => {
+  const supabase = createClient();
+  const [imageData, setImageData] = useState();
+
+  useEffect(() => {
+    downloadImage(user?.avatar_url).then(setImageData);
+  }, []);
+
+  // const imageData = supabase.storage.from('avatars').getPublicUrl(user?.avatar_url)
   return (
     <Avatar className="AvatarRoot">
       <AvatarImage
@@ -51,7 +58,7 @@ const CustomAvatar = ({user}:NavlinksProps) => {
   );
 };
 
-const DropdownAvatar = ({user}:NavlinksProps) => {
+const DropdownAvatar = ({ user }: NavlinksProps) => {
   return (
     <DropdownMenuTrigger asChild>
       <CustomAvatar user={user} />
@@ -59,17 +66,17 @@ const DropdownAvatar = ({user}:NavlinksProps) => {
   );
 };
 
- const DropDownAvatar = ({user}:NavlinksProps)=> {
-	 
-	return (	
-		<DropdownMenu>
-		  <DropdownAvatar user={user} />
-		  <DropdownMenuContent>
-			<DropdownMenuItem className="DropdownMenuItem">
-				New Tab
-			</DropdownMenuItem>
-		</DropdownMenuContent>
-		</DropdownMenu>
-)}
+const DropDownAvatar = ({ user }: NavlinksProps) => {
+  return (
+    <DropdownMenu>
+      <DropdownAvatar user={user} />
+      <DropdownMenuContent>
+        <DropdownMenuItem className="DropdownMenuItem">
+          New Tab
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
-export default DropDownAvatar
+export default DropDownAvatar;

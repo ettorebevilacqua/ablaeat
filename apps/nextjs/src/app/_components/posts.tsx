@@ -47,8 +47,12 @@ export function CreatePostForm() {
       <form
         className="flex w-full max-w-2xl flex-col gap-4"
         onSubmit={form.handleSubmit((data) => {
-          console.log('zzzzzzzzzzz 11111111 dd')
-          createPost.mutate({id: 'cdfce99e-84c2-4eee-8a90-a2fea1a305ca', title:'kk1', updatedAt: new Date()} );
+          console.log("zzzzzzzzzzz 11111111 dd");
+          createPost.mutate({
+            id: "cdfce99e-84c2-4eee-8a90-a2fea1a305ca",
+            title: "kk1",
+            updatedAt: new Date(),
+          });
         })}
       >
         <FormField
@@ -169,16 +173,18 @@ export function PostCardSkeleton(props: { pulse?: boolean }) {
   );
 }
 
-export function PostsFormList(){
-    return <div className="w-full max-w-2xl overflow-y-scroll">
-            <Suspense
-              fallback={
-                <div className="flex w-full flex-col gap-4">
-                  <PostCardSkeleton />
-                </div>
-              }
-            >
-              <PostList />
-            </Suspense>
+export function PostsFormList() {
+  return (
+    <div className="w-full max-w-2xl overflow-y-scroll">
+      <Suspense
+        fallback={
+          <div className="flex w-full flex-col gap-4">
+            <PostCardSkeleton />
           </div>
+        }
+      >
+        <PostList />
+      </Suspense>
+    </div>
+  );
 }

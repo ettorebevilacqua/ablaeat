@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
+import { useState } from "react";
+import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useState } from "react"
-import Link from 'next/link';
 
-import { createClient } from '~/utils/supabase/client'
+import { createClient } from "~/utils/supabase/client";
 
 export const signUpSchema = z
   .object({
@@ -22,7 +22,7 @@ export const signUpSchema = z
 const Signup = () => {
   const [errorSub, setErrorSub] = useState<string | null>(null);
   const supabase = createClient();
-  
+
   const {
     register,
     handleSubmit,
@@ -31,17 +31,16 @@ const Signup = () => {
   } = useForm({
     resolver: zodResolver(signUpSchema),
   });
- 
-  
+
   async function onSubmit(dataForm) {
-    const { data, error } = await supabase.auth.signUp(dataForm)
-    
+    const { data, error } = await supabase.auth.signUp(dataForm);
+
     // TODO : Cerco direttamente l user
-    if (data?.user){
-		 console.log('onSubmit data ', data);
-		setErrorSub('Confirm email at : ' + data.user.email +  '');
-	}
-    console.log('onSubmit data', data);
+    if (data?.user) {
+      console.log("onSubmit data ", data);
+      setErrorSub("Confirm email at : " + data.user.email + "");
+    }
+    console.log("onSubmit data", data);
     if (error) {
       setErrorSub(error);
     }
@@ -68,20 +67,20 @@ const Signup = () => {
           <h2 className="text-center text-2xl font-bold leading-tight">
             Sign in to your account
           </h2>
-          <p className="mt-2 text-center text-sm ">
+          <p className="mt-2 text-center text-sm">
             You have an account?{" "}
-              	<Link title="" href="/users/login" className="font-semibold transition-all duration-200 hover:underline"> 
-					Sign up
-				</Link>
-        
+            <Link
+              title=""
+              href="/users/login"
+              className="font-semibold transition-all duration-200 hover:underline"
+            >
+              Sign up
+            </Link>
           </p>
           <form onSubmit={handleSubmit(onSubmit)} action="/" className="mt-8">
             <div className="space-y-5">
               <div>
-                <label
-                  htmlFor=""
-                  className="text-base font-medium"
-                >
+                <label htmlFor="" className="text-base font-medium">
                   {" "}
                   Email Address{" "}
                 </label>
@@ -100,10 +99,7 @@ const Signup = () => {
               </div>
               <div>
                 <div className="flex items-center justify-between">
-                  <label
-                    htmlFor=""
-                    className="text-base font-medium"
-                  >
+                  <label htmlFor="" className="text-base font-medium">
                     {" "}
                     Password{" "}
                   </label>
@@ -158,8 +154,9 @@ const Signup = () => {
               </div>
             </div>
           </form>
-          <div> 
-				<br /><p className="text-red-500">{errorSub}</p>
+          <div>
+            <br />
+            <p className="text-red-500">{errorSub}</p>
           </div>
         </div>
       </div>

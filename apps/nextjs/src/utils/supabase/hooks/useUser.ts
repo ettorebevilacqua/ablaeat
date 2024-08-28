@@ -1,8 +1,8 @@
-import { useSessionContext } from './useSessionContext'
+import { useSessionContext } from "./useSessionContext";
 
 export const useUser = () => {
-  const { session, isLoading } = useSessionContext()
-  const user = session?.user
+  const { session, isLoading } = useSessionContext();
+  const user = session?.user;
   // TODO: Load profile information from external sources here
   // Ex: profile photo, display name, etc.
 
@@ -10,5 +10,5 @@ export const useUser = () => {
     session,
     user,
     isLoading,
-  }
-}
+  };
+};
