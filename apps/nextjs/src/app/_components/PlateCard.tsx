@@ -26,17 +26,17 @@ export const PlateSchema = z.object({
   like: z.number(),
 });
 
-export type Plate = {
+export interface Plate {
   title: string | null;
   descr: string | null;
   img: string | null;
-};
+}
 
-export type PropsCard = {
+export interface PropsCard {
   user: any;
   plate: Plate;
   onSave: (error: any, data: Plate) => never;
-};
+}
 
 async function deleteImg(supabase, plate, onSave) {
   const _filePath = plate?.img ? plate.img.split("/").pop() : null;
@@ -48,7 +48,7 @@ async function deleteImg(supabase, plate, onSave) {
   if (error) {
     onSave(error, null, plate);
     return { data, error };
-  } else if (!!_filePath) {
+  } else if (_filePath) {
     // const {data, error} =
     const res = await supabase.storage.from("plates").remove([_filePath]);
   }
@@ -100,7 +100,7 @@ export function PlateCardForm({ user, plate, onSave }: PropsCard) {
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(true);
   const [imgUrl, setImgUrl] = useState(
-    plate?.img === "null" ? null : plate?.img,
+    plate && plate.img && plate.img,
   );
 
   const supabase = createClient();

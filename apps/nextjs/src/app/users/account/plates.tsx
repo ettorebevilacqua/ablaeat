@@ -11,12 +11,12 @@ import UploadImg from "~/app/_components/UploadImg";
 import { createClient } from "~/utils/supabase/client";
 import userImg from "/public/images/User.webp";
 
-export type Plate = {
+export interface Plate {
   title: string | null;
   img: string | null;
   desc: string | null;
   like: z.number | null;
-};
+}
 
 export default function Plates({ user }: any) {
   const [errorSub, setErrorSub] = useState<string | null>(null);

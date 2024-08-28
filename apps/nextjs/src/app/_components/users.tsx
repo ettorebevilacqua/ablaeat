@@ -57,7 +57,7 @@ export function UsersList() {
     return renderLoading();
   }
 
-  if (!!aa.error) {
+  if (aa.error) {
     return <h2>Error on data loading {aa.error}</h2>;
   }
 

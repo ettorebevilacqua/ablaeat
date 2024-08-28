@@ -1,6 +1,6 @@
 // import AcmeLogo from '@/app/ui/acme-logo';
 import  RegisterForm from '@acme/ui/forms/register';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Link from 'next/link'
 import { Button } from "@acme/ui/button";
 

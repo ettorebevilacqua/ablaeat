@@ -6,12 +6,12 @@ import { PlateCard, PlateCardForm } from "~/app/_components/PlateCard.tsx";
 import { useAuth } from "~/hooks/useAuth";
 import { createClient } from "~/utils/supabase/client";
 
-export type Plate = {
+export interface Plate {
   title: string | null;
   img: string | null;
   desc: string | null;
   like: number | null;
-};
+}
 
 export default function PlatesList() {
   const supabase = createClient();

@@ -46,8 +46,8 @@ export async function signup(formData: FormData) {
     /* toast.show('Sign up failed', {
         message: error.message,
       }) */
-  } else if (data?.user) {
-    console.log("user", data?.user);
+  } else if (data.user) {
+    console.log("user", data.user);
     /* toast.show('Email Confirmation', {
         message: 'Check your email ',
       }) */

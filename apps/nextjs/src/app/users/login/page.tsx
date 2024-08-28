@@ -21,7 +21,7 @@ const signIn = () => {
   const supabase = createClient();
   const { user, error, reload } = useAuth();
 
-  if (!!user) {
+  if (user) {
     router.push("/");
   }
 

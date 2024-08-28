@@ -36,7 +36,7 @@ const Signup = () => {
     const { data, error } = await supabase.auth.signUp(dataForm);
 
     // TODO : Cerco direttamente l user
-    if (data?.user) {
+    if (data.user) {
       console.log("onSubmit data ", data);
       setErrorSub("Confirm email at : " + data.user.email + "");
     }
@@ -137,7 +137,7 @@ const Signup = () => {
                   ></input>
                 </div>
                 {errors.password2 && (
-                  <p className="text-red-500">{errors.password2?.message}</p>
+                  <p className="text-red-500">{errors.password2.message}</p>
                 )}
                 {/* {errors.password && errors.password.type === 'minLength' && (<p className="text-red-500">Make sure 8 characters</p>)} */}
               </div>

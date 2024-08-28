@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { type EmailOtpType } from "@supabase/supabase-js";
+import type {EmailOtpType} from "@supabase/supabase-js";
 
 import { createClient } from "@acme/auth";
 

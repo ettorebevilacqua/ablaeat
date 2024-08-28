@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useRouter as useNextRouter } from "next/router";
-import { AuthChangeEvent } from "@supabase/supabase-js";
+import type { AuthChangeEvent } from "@supabase/supabase-js";
 import { useSupabase } from "app/utils/supabase/hooks/useSupabase";
 import { useRouter } from "solito/router";
 

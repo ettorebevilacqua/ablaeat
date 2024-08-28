@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent } from "react";
+import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { getCsrfToken, signIn } from "next-auth/react";
 

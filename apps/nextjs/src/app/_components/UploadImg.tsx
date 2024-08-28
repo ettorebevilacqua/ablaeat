@@ -75,7 +75,7 @@ export default function UploadImg({
         throw new Error("You must select an image to upload.");
       }
 
-      if (!!filePath) {
+      if (filePath) {
         const { data, error } = await supabase.storage
           .from(bucket)
           .remove([filePath]);
@@ -86,7 +86,7 @@ export default function UploadImg({
       const image = await resizeFile(file);
       const fileExt = "webp"; // file.name.split('.').pop()
 
-      const newFilePath = !!filePath
+      const newFilePath = filePath
         ? filePath
         : `${uid}-${Math.random()}.${fileExt}`;
       if (!filePath) setFilePath(newFilePath);
@@ -104,7 +104,7 @@ export default function UploadImg({
 
       const pubUrl = supabase.storage.from(bucket).getPublicUrl(newFilePath);
 
-      onUpload(pubUrl?.data?.publicUrl, newFilePath, data);
+      onUpload(pubUrl.data.publicUrl, newFilePath, data);
     } catch (error) {
       console.log("error upload ", error);
       alert("Error uploading avatar!");

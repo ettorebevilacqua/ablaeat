@@ -4,12 +4,12 @@ import { Input } from "@acme/ui/input";
 
 import PlateList from "./plateList";
 
-export type Plate = {
+export interface Plate {
   title: string | null;
   img: string | null;
   desc: string | null;
   like: z.number | null;
-};
+}
 
 export default async function Page() {
   return (

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { AuthChangeEvent, Session } from "@supabase/supabase-js";
+import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
 import { useSupabase } from "app/utils/supabase/hooks/useSupabase";
 import { useRouter } from "solito/router";
 
