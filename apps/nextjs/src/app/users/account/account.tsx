@@ -1,89 +1,76 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-import { Button } from "@acme/ui/button";
 
 import { useAuth } from "~/hooks/useAuth";
 import { createClient } from "~/utils/supabase/client";
 import Avatar from "./Avatar";
-import Plates from "./plates";
 import userImg from "/public/images/User.webp";
+import type { FieldValues } from "react-hook-form";
 
 export const accountSchema = z.object({
   full_name: z.string(),
   website: z.string(),
   aboutme: z.string(),
+  avatar_url:z.string()
 });
 
+interface  UserForm {
+  full_name?: string;
+  website?: string;
+  aboutme?: string;
+  avatar_url?:string;
+}
+
 export default function Account() {
-  const { user, error, reload } = useAuth();
-  const [errorSub, setErrorSub] = useState<string | null>(null);
+  const { user, reload } = useAuth();
+  const [errorSub] = useState<string | null>(null);
   const supabase = createClient();
-  const [formData, setFormData] = useState({});
-
-  const [loading, setLoading] = useState(true);
-  const [fullname, setFullname] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
-  const [website, setWebsite] = useState<string | null>(null);
-  const [avatar_url, setAvatarUrl] = useState<string | null>(null);
-
+  const [avatar_url, setAvatarUrl] = useState<string | null | undefined>(null);
+ 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting, isValid },
-    defaultValues,
   } = useForm({
     // resolver: zodResolver(accountSchema),
   });
 
   useEffect(() => {
-    reset(user);
+    reset(user as FieldValues);
     setAvatarUrl(user?.avatar_url);
-  }, [user]);
+  }, [reset, user]);
 
-  async function updateProfile({
-    full_name,
-    aboutme,
-    avatar_url,
-  }: {
-    fullname: string | null;
-    website: string | null;
-    avatar_url: string | null;
-  }) {
-    console.log("onSubmit data", fullname);
+  async function updateProfile({full_name, aboutme,avatar_url, }:UserForm) {
     try {
-      setLoading(true);
+  
       const dataForm = {
-        id: user?.id as string,
+        id: user?.id,
         full_name,
         aboutme,
         avatar_url,
         updated_at: new Date().toISOString(),
       };
       const upProf = await supabase.from("profiles").upsert(dataForm);
-      const { data, error } = upProf;
+      const { error } = upProf;
       if (error) {
         console.log("error update profile", error);
         alert("Error on update");
         return false;
       }
-      reload();
+      void reload();
       alert("Profile updated!");
     } catch (error) {
       console.log("error catch update profile", error);
       alert("Error updating the data!");
-    } finally {
-      setLoading(false);
-    }
+    } finally { /* empty */ }
   }
 
-  async function onSubmit(dataForm) {
-    updateProfile({ ...dataForm, avatar_url });
+  async function onSubmit(dataForm: UserForm) {
+    await updateProfile({ ...dataForm, avatar_url: avatar_url ?? undefined });
     console.log("onSubmit data", dataForm);
   }
 
@@ -106,8 +93,8 @@ export default function Account() {
               </div>
               <div>
                 <Avatar
-                  uid={user?.id ?? null}
-                  url={avatar_url || userImg}
+                  uid={user.id}
+                  url={avatar_url ?? userImg as unknown as string}
                   size={150}
                   onUpload={(url) => {
                     setAvatarUrl(url);
@@ -130,7 +117,7 @@ export default function Account() {
                   ></input>
                 </div>
                 {errors.email && (
-                  <p className="text-red-500">{errors.full_name.message}</p>
+                  <p className="text-red-500">{errors.full_name?.message as string}</p>
                 )}
               </div>
               <div>
@@ -148,7 +135,7 @@ export default function Account() {
                   ></input>
                 </div>
                 {errors.email && (
-                  <p className="text-red-500">{errors.website.message}</p>
+                  <p className="text-red-500">{errors.website?.message as string}</p>
                 )}
               </div>
               <div>
@@ -158,7 +145,7 @@ export default function Account() {
                 </label>
                 <div className="mt-2">
                   <textarea
-                    rows="4"
+                    rows={4}
                     {...register("aboutme")}
                     name="aboutme"
                     placeholder="Somethink about you"
@@ -166,7 +153,7 @@ export default function Account() {
                   />
                 </div>
                 {errors.email && (
-                  <p className="text-red-500">{errors.aboutme.message}</p>
+                  <p className="text-red-500">{errors.aboutme?.message as string}</p>
                 )}
               </div>
 

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { FieldValues, SubmitHandler} from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -19,6 +20,11 @@ export const signUpSchema = z
     path: ["confirmPassword"],
   });
 
+interface FormData {
+  email: string,
+  password: string
+}
+
 const Signup = () => {
   const [errorSub, setErrorSub] = useState<string | null>(null);
   const supabase = createClient();
@@ -32,8 +38,9 @@ const Signup = () => {
     resolver: zodResolver(signUpSchema),
   });
 
-  async function onSubmit(dataForm) {
-    const { data, error } = await supabase.auth.signUp(dataForm);
+  const onSubmit:SubmitHandler<FieldValues> = useCallback(async (dataForm) => {
+    const { email, password } = dataForm as FormData
+    const { data, error } = await supabase.auth.signUp({ email, password });
 
     // TODO : Cerco direttamente l user
     if (data.user) {
@@ -42,10 +49,11 @@ const Signup = () => {
     }
     console.log("onSubmit data", data);
     if (error) {
-      setErrorSub(error);
+      setErrorSub(error.message);
     }
     reset();
-  }
+  },[reset, supabase.auth])
+  
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
@@ -94,7 +102,7 @@ const Signup = () => {
                   ></input>
                 </div>
                 {errors.email && (
-                  <p className="text-red-500">{errors.email.message}</p>
+                  <p className="text-red-500">{errors.email.message as string}</p>
                 )}
               </div>
               <div>
@@ -122,7 +130,7 @@ const Signup = () => {
                   ></input>
                 </div>
                 {errors.password && (
-                  <p className="text-red-500">{errors.password.message}</p>
+                  <p className="text-red-500">{errors.password.message as string}</p>
                 )}
                 {/* {errors.password &&  (<p className="text-red-500">{errors.password.message}</p>)} */}
               </div>
@@ -137,7 +145,7 @@ const Signup = () => {
                   ></input>
                 </div>
                 {errors.password2 && (
-                  <p className="text-red-500">{errors.password2.message}</p>
+                  <p className="text-red-500">{errors.password2.message as string}</p>
                 )}
                 {/* {errors.password && errors.password.type === 'minLength' && (<p className="text-red-500">Make sure 8 characters</p>)} */}
               </div>
@@ -145,9 +153,8 @@ const Signup = () => {
                 <button
                   type="submit"
                   disabled={!isValid}
-                  className={`${
-                    !isValid ? "bg-slate-400 hover:bg-slate-400" : undefined
-                  } inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80`}
+                  className={`${!isValid ? "bg-slate-400 hover:bg-slate-400" : undefined
+                    } inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80`}
                 >
                   {isSubmitting ? "Submitting..." : "Get started"}
                 </button>

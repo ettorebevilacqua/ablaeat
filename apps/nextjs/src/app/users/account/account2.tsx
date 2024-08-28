@@ -1,5 +1,5 @@
 "use client";
-
+/*
 import { useCallback, useEffect, useState } from "react";
 import { CldImage, CldUploadButton } from "next-cloudinary";
 
@@ -217,7 +217,7 @@ export default function Account({ user }: any) {
                           {errors.password.message}
                         </p>
                       )}
-                      {/* {errors.password &&  (<p className="text-red-500">{errors.password.message}</p>)} */}
+                      // {/ * {errors.password &&  (<p className="text-red-500">{errors.password.message}</p>)} * /}
                     </div>
                     <div>
                       <div className="mt-2">
@@ -234,7 +234,7 @@ export default function Account({ user }: any) {
                           {errors.password2?.message}
                         </p>
                       )}
-                      {/* {errors.password && errors.password.type === 'minLength' && (<p className="text-red-500">Make sure 8 characters</p>)} */}
+                      {/ * {errors.password && errors.password.type === 'minLength' && (<p className="text-red-500">Make sure 8 characters</p>)} * /}
                     </div>
                     <div>
                       <button
@@ -307,3 +307,4 @@ export default function Account({ user }: any) {
     </main>
   );
 }
+*/

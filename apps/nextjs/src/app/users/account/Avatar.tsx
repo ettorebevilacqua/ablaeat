@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import type { ChangeEventHandler} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Resizer from "react-image-file-resizer";
-
-import { Button } from "@acme/ui/button";
-
 import { createClient } from "~/utils/supabase/client";
 
-const resizeFile = (file: any) =>
+const resizeFile = (file: Blob) =>
   new Promise((resolve) => {
     Resizer.imageFileResizer(
       file,
@@ -31,12 +29,12 @@ export default function Avatar({
   onUpload,
 }: {
   uid: string | null;
-  url: string | null;
+  url: unknown;
   size: number;
   onUpload: (url: string) => void;
 }) {
   const supabase = createClient();
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(url);
+  const [avatarUrl, setAvatarUrl] = useState<unknown>(url);
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
@@ -56,12 +54,13 @@ export default function Avatar({
       }
     }
 
-    if (url && !url.src) downloadImage(url);
+    if (url && typeof url === 'string') {
+      void downloadImage(url);
+    }
   }, [url, supabase]);
 
-  const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (
-    event,
-  ) => {
+  const uploadAvatar = useCallback<ChangeEventHandler<HTMLInputElement>> (
+  async ( event: React.ChangeEvent<HTMLInputElement>) => {
     try {
       setUploading(true);
 
@@ -70,8 +69,8 @@ export default function Avatar({
       }
 
       const file = event.target.files[0];
-      const image = await resizeFile(file);
-      const fileExt = image.name.split(".").pop();
+      const image = await resizeFile(file as Blob) as File;
+      const fileExt = image.name ? image.name.split(".").pop() : '';
       const filePath = `${uid}-${Math.random()}.${fileExt}`;
 
       const { error: uploadError } = await supabase.storage
@@ -89,7 +88,7 @@ export default function Avatar({
     } finally {
       setUploading(false);
     }
-  };
+  },[onUpload, supabase.storage, uid]);
 
   return (
     <div className="flex max-w-xs flex-row items-center justify-center gap-4 rounded-xl">
@@ -98,7 +97,7 @@ export default function Avatar({
           <Image
             width={size}
             height={size}
-            src={avatarUrl}
+            src={avatarUrl as string}
             alt="Avatar"
             className="avatar image"
             style={{ height: size, width: size }}
@@ -129,3 +128,4 @@ export default function Avatar({
     </div>
   );
 }
+

@@ -1,17 +1,14 @@
-import { Label } from "@acme/ui/";
-import { Button } from "@acme/ui/button";
-import { Input } from "@acme/ui/input";
 
 import PlateList from "./plateList";
 
 export interface Plate {
-  title: string | null;
-  img: string | null;
-  desc: string | null;
-  like: z.number | null;
+  title?: string | null;
+  img?: string | null;
+  desc?: string | null;
+  like?: number | null;
 }
 
-export default async function Page() {
+export default function Page() {
   return (
     <section>
       <div className="flex items-center justify-center px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">

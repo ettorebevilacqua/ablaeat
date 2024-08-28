@@ -1,12 +1,16 @@
 "use client";
 
-import { createContext, useCallback, useEffect, useState } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 
 import { createClient } from "~/utils/supabase/client";
+import type { Session, SupabaseClient, User } from "@supabase/supabase-js";
+import type { UserFull } from "@acme/auth";
 
-export const AuthContext = createContext();
+export interface IAuthContext { authenticated: boolean, user?: UserFull | null, reload: () => Promise<void> }
+const empityPromise = () => new Promise<void>(() => null)
+export const AuthContext = createContext<IAuthContext>({ authenticated: false, user: null, reload: empityPromise });
 
-const loadProfiles = async (supabase: any, userID: string) => {
+const loadProfiles = async (supabase: SupabaseClient, userID: string) => {
   try {
     const { data, error } = await supabase
       .from("profiles")
@@ -16,7 +20,7 @@ const loadProfiles = async (supabase: any, userID: string) => {
 
     if (error) {
       console.log("getUser", error);
-      throw error;
+      throw error as unknown;
     }
     return { user: data, error };
   } catch (error) {
@@ -24,42 +28,43 @@ const loadProfiles = async (supabase: any, userID: string) => {
   }
 };
 
-const getSessionUser = async (supabase: any): Promise<any | null> => {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+const getSessionUser = async (supabase: SupabaseClient): Promise<{ user: User | null, session: Session | null }> => {
+  const { data: { user }} = await supabase.auth.getUser();
+  const { data: { session }} = await supabase.auth.getSession();
 
-  return user;
+  return { session, user };
 };
-const AuthProvider = (props) => {
+
+const AuthProvider = (props: { session?: Session | null; user?: UserFull | null; children?: React.ReactNode; }) => {
   const { children } = props;
 
   const supabase = createClient();
   const [authenticated, setAuthenticated] = useState(!!props.session);
-  const [user, setUser] = useState(props.user);
-  const [session, setSession] = useState(props.session);
+  const [user, setUser] = useState(props.user ?? null);
+  const [session, setSession] = useState<Session | null>(props.session ?? null);
 
   const reload = useCallback(async () => {
-    const _session = await getSessionUser(supabase);
+    const {session: _session } = await getSessionUser(supabase);
     if (_session) {
       setAuthenticated(true);
       setSession(_session);
-      const res = await loadProfiles(supabase, _session.id);
+      const res = await loadProfiles(supabase, _session.user.id);
       if (res.user) {
-        setUser({ ..._session, ...res.user });
+        setUser(user);
       }
     } else {
       setUser(null);
       setSession(session);
     }
-  });
+  }, [session, supabase, user]);
+
   /*useEffect(() => {
-	const fetchUserData =  async () => {
+  const fetchUserData =  async () => {
     const session = await getSessionUser(supabase);
     if (session) {
-	  setAuthenticated(true);
-	  setSession(session);
-	  const { data, error } = await loadProfiles(supabase, session);
+    setAuthenticated(true);
+    setSession(session);
+    const { data, error } = await loadProfiles(supabase, session);
       
       setUser({...session, ...user});
     } else setUser(null);
@@ -69,10 +74,9 @@ const AuthProvider = (props) => {
   */
 
   useEffect(() => {
-    const handleAuthStateChange = async (event, session) => {
-      if (event === "INITIAL_SESSION") {
-      } else if (event === "SIGNED_IN") {
-        reload();
+    const handleAuthStateChange = (event: string) => {
+      if (event === "INITIAL_SESSION") { /* empty */ } else if (event === "SIGNED_IN") {
+        reload().then(() => null).catch(() => null);
       } else if (event === "SIGNED_OUT") {
         setSession(null);
         setUser(null);
@@ -81,18 +85,18 @@ const AuthProvider = (props) => {
       } else if (event === "TOKEN_REFRESHED") {
         // handle token refreshed event
       } else if (event === "USER_UPDATED") {
-        reload();
+        reload().then(() => null).catch(() => null);;
       }
     };
 
     const { data } = supabase.auth.onAuthStateChange(handleAuthStateChange);
     return () => {
-      data && data.subscription.unsubscribe();
+      data.subscription.unsubscribe();
     };
-  }, [supabase]);
+  }, [reload, supabase]);
 
   return (
-    <AuthContext.Provider value={{ authenticated, user, setUser, reload }}>
+    <AuthContext.Provider value={{ authenticated, user, reload }}>
       {children}
     </AuthContext.Provider>
   );

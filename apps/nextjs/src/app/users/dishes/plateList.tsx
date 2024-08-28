@@ -2,28 +2,18 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { PlateCard, PlateCardForm } from "~/app/_components/PlateCard.tsx";
+import type { Plate } from "~/app/_components/PlateCard";
+import { PlateCard, PlateCardForm } from "~/app/_components/PlateCard";
 import { useAuth } from "~/hooks/useAuth";
 import { createClient } from "~/utils/supabase/client";
 
-export interface Plate {
-  title: string | null;
-  img: string | null;
-  desc: string | null;
-  like: number | null;
-}
-
 export default function PlatesList() {
   const supabase = createClient();
-  const [loading, setLoading] = useState(true);
-  const [errorSub, setErrorSub] = useState<string | null>(null);
   const [dataList, setDataList] = useState<Plate[] | null>(null);
-  const { user, error } = useAuth();
+  const { user } = useAuth();
 
   const getData = useCallback(async () => {
     try {
-      setLoading(true);
-
       const { data, error, status } = await supabase
         .from("users_images")
         .select(`id, title, img, descr, like`)
@@ -37,21 +27,21 @@ export default function PlatesList() {
       if (data) {
         console.log("fill form ", data);
         // reset(data);
-        setDataList(data);
+        setDataList(data as unknown as Plate[]);
       }
     } catch (error) {
       console.log("ERROR ACCOUNT catch", error);
       // alert('Error loading user data!')
-    } finally {
-      setLoading(false);
-    }
+    } finally { /* empty */ }
   }, [user, supabase]);
 
-  const onSavePlate = (error: any, data: Plate) => getData();
+  const onSavePlate = () => getData();
 
   useEffect(() => {
-    getData();
+    void getData();
   }, [user, getData]);
+
+  if (!user) return <h2>User not found</h2>
 
   return (
     <section>
@@ -64,7 +54,6 @@ export default function PlatesList() {
               : dataList.map((plate: Plate) => (
                   <PlateCard
                     key={plate.id}
-                    user={user}
                     plate={plate}
                     onSave={onSavePlate}
                   />

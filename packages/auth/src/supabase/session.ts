@@ -1,20 +1,20 @@
 import type { GetServerSidePropsContext } from 'next';
 // import { cache } from 'react';
-import {createClient} from './server';
+import { createClient } from './server';
+import { Session } from '@supabase/supabase-js';
 
 // export const getUserFromContext = async (ctx: GetServerSidePropsContext): Promise<User | null> => {
-const getSessionUser = async (): Promise<any | null> => {
+export const getSession = async (): Promise<Session | null> => {
   const supabase = await createClient()
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
-	return user;
-  };
-  
-  export const getSession =getSessionUser;
-  export const getUser = async (userId: string) => {
-	  
-  const session = await getSessionUser();
+    data: { session },
+  } = await supabase.auth.getSession();
+  return session;
+};
+
+export const getUser = async () => {
+
+  const session = await getSession();
   const supabase = await createClient();
   // Since the CreateServerSupbaseClient is wrapped in <Database> type, the
   // query method is now typesafe.
@@ -22,18 +22,18 @@ const getSessionUser = async (): Promise<any | null> => {
     const { data, error } = await supabase
       .from('profiles')
       .select('full_name, website, aboutme, avatar_url')
-      .eq('id', session.id)
+      .eq('id', session?.user.id)
       .single();
-      
-	if (error) {
-		console.log('getUser', error)
-		throw error
-	 }
-	     return {user:{...session, ...data}, error}
-    } catch(error){
-		return {user:null, session, error}
-	}    
-   
+
+    if (error) {
+      console.log('getUser', error)
+      throw error
+    }
+    return { user: { ...session?.user, ...(data ?? {}) } as UserFull, session, error }
+  } catch (error) {
+    return { user: null, session, error }
+  }
+
 };
-  
+
 

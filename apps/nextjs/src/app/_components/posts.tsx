@@ -14,6 +14,7 @@ import {
 } from "@acme/ui/form";
 import { Input } from "@acme/ui/input";
 import { toast } from "@acme/ui/toast";
+import { Suspense } from "react";
 
 import { api } from "~/trpc/react";
 
@@ -46,12 +47,12 @@ export function CreatePostForm() {
     <Form {...form}>
       <form
         className="flex w-full max-w-2xl flex-col gap-4"
-        onSubmit={form.handleSubmit((data) => {
+        onSubmit={form.handleSubmit(() => {
           console.log("zzzzzzzzzzz 11111111 dd");
           createPost.mutate({
             id: "cdfce99e-84c2-4eee-8a90-a2fea1a305ca",
             title: "kk1",
-            updatedAt: new Date(),
+            // updatedAt: new Date(),
           });
         })}
       >

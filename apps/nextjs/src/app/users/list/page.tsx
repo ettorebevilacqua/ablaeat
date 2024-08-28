@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+/*import { Suspense } from "react";
 
 import { UsersList } from "~/app/_components/users";
 import { HydrateClient } from "~/trpc/server";
@@ -25,3 +25,4 @@ export default function UsersPage() {
     </HydrateClient>
   );
 }
+*/

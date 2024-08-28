@@ -1,0 +1,37 @@
+
+> @acme/nextjs@0.1.0 lint /home/etto/prj/abla/ablaeat/apps/nextjs
+> eslint
+
+
+/home/etto/prj/abla/ablaeat/apps/nextjs/src/app/_components/navbar/navlinks.tsx
+  11:15  error  'UserFull' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
+
+/home/etto/prj/abla/ablaeat/apps/nextjs/src/app/api/auth/confirm/route.ts
+  37:36  error  'process.env' is restricted from being used. Use `import { env } from '~/env'` instead to ensure validated types  no-restricted-properties
+  43:27  error  'process.env' is restricted from being used. Use `import { env } from '~/env'` instead to ensure validated types  no-restricted-properties
+  44:32  error  'process.env' is restricted from being used. Use `import { env } from '~/env'` instead to ensure validated types  no-restricted-properties
+
+/home/etto/prj/abla/ablaeat/apps/nextjs/src/app/layout.tsx
+  48:10  error  Unsafe array destructuring of a tuple element with an error typed value  @typescript-eslint/no-unsafe-assignment
+  59:26  error  Unsafe assignment of an error typed value                                @typescript-eslint/no-unsafe-assignment
+
+/home/etto/prj/abla/ablaeat/apps/nextjs/src/utils/baseurl.ts
+   5:7   error  'process.env' is restricted from being used. Use `import { env } from '~/env'` instead to ensure validated types  no-restricted-properties
+   7:23  error  'process.env' is restricted from being used. Use `import { env } from '~/env'` instead to ensure validated types  no-restricted-properties
+   8:7   error  RENDER_INTERNAL_HOSTNAME is not listed as a dependency in turbo.json                                              turbo/no-undeclared-env-vars
+   8:7   error  'process.env' is restricted from being used. Use `import { env } from '~/env'` instead to ensure validated types  no-restricted-properties
+  10:22  error  RENDER_INTERNAL_HOSTNAME is not listed as a dependency in turbo.json                                              turbo/no-undeclared-env-vars
+  10:22  error  'process.env' is restricted from being used. Use `import { env } from '~/env'` instead to ensure validated types  no-restricted-properties
+  10:62  error  'process.env' is restricted from being used. Use `import { env } from '~/env'` instead to ensure validated types  no-restricted-properties
+  12:30  error  'process.env' is restricted from being used. Use `import { env } from '~/env'` instead to ensure validated types  no-restricted-properties
+
+/home/etto/prj/abla/ablaeat/apps/nextjs/src/utils/supabase/middleware.ts
+  15:5  error  Forbidden non-null assertion                                                                                      @typescript-eslint/no-non-null-assertion
+  15:5  error  'process.env' is restricted from being used. Use `import { env } from '~/env'` instead to ensure validated types  no-restricted-properties
+  16:5  error  Forbidden non-null assertion                                                                                      @typescript-eslint/no-non-null-assertion
+  16:5  error  'process.env' is restricted from being used. Use `import { env } from '~/env'` instead to ensure validated types  no-restricted-properties
+  41:6  error  Unnecessary conditional, value is always falsy                                                                    @typescript-eslint/no-unnecessary-condition
+
+✖ 19 problems (19 errors, 0 warnings)
+
+ ELIFECYCLE  Command failed with exit code 1.

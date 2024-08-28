@@ -21,7 +21,6 @@
     "@acme/db": "workspace:*",
     "@auth/core": "0.32.0",
     "@auth/drizzle-adapter": "^1.4.1",
-    "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/supabase-js": "^2.44.4",
     "@t3-oss/env-nextjs": "^0.10.1",
     "next": "^14.2.4",
@@ -38,6 +37,7 @@
     "bcryptjs": "^2.4.3",
     "eslint": "catalog:",
     "prettier": "catalog:",
+    "supabase": ">=1.8.1",
     "typescript": "catalog:"
   },
   "prettier": "@acme/prettier-config"

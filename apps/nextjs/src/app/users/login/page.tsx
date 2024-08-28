@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { FieldValues, SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -15,11 +16,16 @@ export const signInSchema = z.object({
   password: z.string().min(6, "Password must be 6 characters long"),
 });
 
-const signIn = () => {
+interface FormData {
+  email: string,
+  password: string
+}
+
+export default function Page() {
   const [errorSub, setErrorSub] = useState<string | null>(null);
   const router = useRouter();
   const supabase = createClient();
-  const { user, error, reload } = useAuth();
+  const { user, reload } = useAuth();
 
   if (user) {
     router.push("/");
@@ -28,20 +34,20 @@ const signIn = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors, isSubmitting, isValid },
   } = useForm({
     resolver: zodResolver(signInSchema),
   });
 
-  async function onSubmit(dataForm) {
-    const { data, error } = await supabase.auth.signInWithPassword(dataForm);
+  const onSubmit: SubmitHandler<FieldValues> = async ( dataForm ) => {
+    const { email, password } = dataForm as FormData
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
       // console.log('error desc', error);
       setErrorSub(error.message);
       return false;
     }
-    reload();
+    void reload();
     router.push("/users/account");
 
     //reset();
@@ -95,7 +101,7 @@ const signIn = () => {
                   ></input>
                 </div>
                 {errors.email && (
-                  <p className="text-red-500">{errors.email.message}</p>
+                  <p className="text-red-500">{errors.email.message as string}</p>
                 )}
               </div>
               <div>
@@ -123,7 +129,7 @@ const signIn = () => {
                   ></input>
                 </div>
                 {errors.password && (
-                  <p className="text-red-500">{errors.password.message}</p>
+                  <p className="text-red-500">{errors.password.message as string}</p>
                 )}
                 {/* {errors.password &&  (<p className="text-red-500">{errors.password.message}</p>)} */}
               </div>
@@ -131,9 +137,8 @@ const signIn = () => {
                 <button
                   type="submit"
                   disabled={!isValid}
-                  className={`${
-                    !isValid ? "bg-slate-400 hover:bg-slate-400" : undefined
-                  } inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80`}
+                  className={`${!isValid ? "bg-slate-400 hover:bg-slate-400" : undefined
+                    } inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80`}
                 >
                   {isSubmitting ? "Submitting..." : "Get started"}
                 </button>
@@ -149,5 +154,3 @@ const signIn = () => {
     </section>
   );
 };
-
-export default signIn;

@@ -2,8 +2,6 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
-import { getUser } from "@acme/auth";
-
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -36,11 +34,11 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  const user = await supabase.auth.getUser();
+  const {data} = await supabase.auth.getUser();
 
   // console.log('middleware user xxx', user);
   if (
-    !user &&
+    !data.user &&
     !request.nextUrl.pathname.startsWith("/login") &&
     !request.nextUrl.pathname.startsWith("/auth")
   ) {

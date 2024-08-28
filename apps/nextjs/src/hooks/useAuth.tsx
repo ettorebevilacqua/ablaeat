@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import { useContext } from "react";
 
 import { AuthContext } from "./authProvider";
 

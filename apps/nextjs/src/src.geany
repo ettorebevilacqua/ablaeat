@@ -27,7 +27,7 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=0
+current_page=8
 FILE_NAME_0=2696;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fsrc%2Fapp%2F_components%2FPlateCard.tsx;0;4
 FILE_NAME_1=360;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fpackages%2Fauth%2Fsrc%2Findex.rsc.ts;0;4
 FILE_NAME_2=599;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fpackages%2Fapi%2Fsrc%2Ftrpc2.ts;0;4
@@ -36,6 +36,7 @@ FILE_NAME_4=573;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%
 FILE_NAME_5=1773;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fsrc%2Fapp%2F_components%2FUploadImg.tsx;0;4
 FILE_NAME_6=0;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fsrc%2Fapp%2Fusers%2Flist%2Fpage.tsx;0;4
 FILE_NAME_7=0;TypeScript;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Fsrc%2Fapp%2F_components%2Fusers.tsx;0;4
+FILE_NAME_8=77;None;0;EUTF-8;1;1;0;%2Fhome%2Fetto%2Fprj%2Fabla%2Fablaeat%2Fapps%2Fnextjs%2Flint.txt;0;4
 
 [VTE]
 last_dir=/home/etto

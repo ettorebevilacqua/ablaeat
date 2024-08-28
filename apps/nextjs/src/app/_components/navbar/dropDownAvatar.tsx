@@ -1,9 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@acme/ui/avatar";
-import { Button } from "@acme/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,14 +11,14 @@ import {
 } from "@acme/ui/dropdown-menu";
 
 import { createClient } from "~/utils/supabase/client";
-import userImg from "/public/images/User.webp";
+import type {UserFull} from "@acme/auth";
 
 interface NavlinksProps {
-  user?: any;
+  user?: UserFull;
 }
-async function downloadImage(path: string) {
+async function downloadImage(path: string | null | undefined) {
   const supabase = createClient();
-
+  if (!path) return 
   try {
     const { data, error } = await supabase.storage
       .from("avatars")
@@ -36,19 +35,18 @@ async function downloadImage(path: string) {
 }
 
 const CustomAvatar = ({ user }: NavlinksProps) => {
-  const supabase = createClient();
-  const [imageData, setImageData] = useState();
+  const [imageData, setImageData] = useState<string | undefined>();
 
   useEffect(() => {
-    downloadImage(user?.avatar_url).then(setImageData);
-  }, []);
+    downloadImage(user?.avatar_url).then(setImageData).catch(()=>null);
+  }, [user?.avatar_url]);
 
   // const imageData = supabase.storage.from('avatars').getPublicUrl(user?.avatar_url)
   return (
     <Avatar className="AvatarRoot">
       <AvatarImage
         className="AvatarImage"
-        src={imageData || userImg}
+        src={imageData}
         alt="Colm Tuite"
       />
       <AvatarFallback className="AvatarFallback" delayMs={600}>

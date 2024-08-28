@@ -1,8 +1,9 @@
-import { Suspense } from "react";
-import Link from "next/link";
 
-import { api, HydrateClient } from "~/trpc/server";
-import { AuthShowcase } from "./_components/auth-showcase";
+import Link from "next/link";
+import {
+  // api ,
+  HydrateClient
+} from "~/trpc/server";
 
 export const runtime = "edge";
 

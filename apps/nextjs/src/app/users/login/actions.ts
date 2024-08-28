@@ -1,5 +1,5 @@
 "use server";
-
+/*
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -43,14 +43,14 @@ export async function signup(formData: FormData) {
   if (error) {
     console.log("error", error);
     redirect("/error");
-    /* toast.show('Sign up failed', {
-        message: error.message,
-      }) */
+    // / * toast.show('Sign up failed', {
+    //     message: error.message,
+    //   }) * /
   } else if (data.user) {
     console.log("user", data.user);
-    /* toast.show('Email Confirmation', {
-        message: 'Check your email ',
-      }) */
+    // / * toast.show('Email Confirmation', {
+    //     message: 'Check your email ',
+    //   }) * /
   }
   revalidatePath("/", "layout");
   redirect("/users/checkMail");
@@ -73,3 +73,4 @@ const handleEmailSignUpWithPress = async (email: string, password: string) => {
     push("/");
   }
 };
+*/

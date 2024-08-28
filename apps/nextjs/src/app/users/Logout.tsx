@@ -1,9 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
 import { Button } from "@acme/ui/button";
-
 import { createClient } from "~/utils/supabase/client";
 
 export default function Logout() {
@@ -13,7 +11,7 @@ export default function Logout() {
     <Button
       size="lg"
       onClick={() => {
-        supabase.auth.signOut();
+        void supabase.auth.signOut();
         router.push("/");
       }}
     >

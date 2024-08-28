@@ -45,7 +45,7 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
-  const { user, session, error } = await getUser();
+  const {user, session } = await getUser();
 
   return (
     <html lang="en" suppressHydrationWarning>

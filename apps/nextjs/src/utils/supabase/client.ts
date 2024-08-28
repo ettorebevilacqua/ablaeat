@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-properties */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { createBrowserClient } from "@supabase/ssr";
 
 export function createClient() {
