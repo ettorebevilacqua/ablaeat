@@ -2,7 +2,7 @@ import type { TRPCRouterRecord } from "@trpc/server";
 import { z } from "zod";
 
 import { desc, eq } from "@acme/db";
-import { CreatePostSchema, UpdatePostSchema, Post } from "@acme/db/schema";
+import { CreatePostSchema, Post, UpdatePostSchema } from "@acme/db/schema";
 
 import { protectedProcedure, publicProcedure } from "../trpc";
 
@@ -46,7 +46,7 @@ export const postRouter = {
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      const data = {...input, updatedAt: new Date()}
+      const data = { ...input, updatedAt: new Date() };
       const [UpdatePostSchema] = await ctx.db
         .update(Post)
         .set(data)
@@ -55,12 +55,11 @@ export const postRouter = {
       return UpdatePostSchema;
     }),
 
- /* update: protectedProcedure
+  /* update: protectedProcedure
   // .input(UpdatePostSchema)
   .mutation(({ ctx, input }) => {
     return ctx.db.update(Post).set({title: 'my title'})
       .where(eq(Post.id, 'cdfce99e-84c2-4eee-8a90-a2fea1a305ca'))
       .returning({ updatedId: Post.id }); //.values(input);
   }), */
-
 } satisfies TRPCRouterRecord;

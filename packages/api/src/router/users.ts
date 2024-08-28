@@ -42,6 +42,4 @@ export const userRouter = {
     .mutation(({ ctx, input }) => {
       return ctx.db.insert(User).values(input);
     }), */
-
-
 } satisfies TRPCRouterRecord;
