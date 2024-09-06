@@ -27,8 +27,8 @@ interface INormalizedError {
  * @param err Error instance.
  * @returns Normalized error object.
  */
-
-function normalizeError(err: unknown): Readonly<INormalizedError> {
+export type ErrorTypes = Error | string | Record<string, unknown> | null
+export function normalizeError(err: unknown): Readonly<INormalizedError> {
   const result: INormalizedError = {
     err,
     message: '',
@@ -37,7 +37,7 @@ function normalizeError(err: unknown): Readonly<INormalizedError> {
       return this.message;
     }
   };
-
+  if (err === null) return result;
   if (err instanceof Error) {
     result.error = err;
     result.message = err.message;
@@ -52,7 +52,7 @@ function normalizeError(err: unknown): Readonly<INormalizedError> {
 
   } else {
     const aErr = err as any;
-    if (typeof err === 'object') {
+    if (typeof err === 'object' && err !==null) {
       result.message = aErr?.message ? aErr.message : String(aErr);
       result.toString = () => {
         const m = typeof err.toString === 'function' ? err.toString() : result.message;
