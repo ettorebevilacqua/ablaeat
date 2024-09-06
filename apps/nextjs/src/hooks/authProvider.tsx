@@ -3,79 +3,66 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
 
 import { createClient } from "~/utils/supabase/client";
-import type { Session, SupabaseClient, User } from "@supabase/supabase-js";
-import type { UserFull } from "@acme/auth";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { UserFull, UserProfile, DbError } from "@acme/auth";
 
-export interface IAuthContext { authenticated: boolean, user?: UserFull | null, reload: () => Promise<void> }
+export interface IAuthContext { authenticated: boolean, user?: UserFull | null, error:string | null, reload: () => Promise<void> }
 const empityPromise = () => new Promise<void>(() => null)
-export const AuthContext = createContext<IAuthContext>({ authenticated: false, user: null, reload: empityPromise });
+export const AuthContext = createContext<IAuthContext>({ authenticated: false, user: null, error: null, reload: empityPromise });
 
-const loadProfiles = async (supabase: SupabaseClient, userID: string) => {
-  try {
+const loadProfiles = async (supabase: SupabaseClient, userID: string): Promise<[DbError | null, UserProfile | null ]> => {
     const { data, error } = await supabase
       .from("profiles")
-      .select("full_name, website, aboutme, avatar_url")
+      .select("full_name, website, aboutme, avatar_url, updated_at")
       .eq("id", userID)
       .single();
 
     if (error) {
       console.log("getUser", error);
-      throw error as unknown;
+      // normalizeError(error as unknown)
+      return [ error, null ];
+      // throw error as unknown;
     }
-    return { user: data, error };
-  } catch (error) {
-    return { user: null, error };
-  }
+    return [ null, data ];
+
 };
 
-const getSessionUser = async (supabase: SupabaseClient): Promise<{ user: User | null, session: Session | null }> => {
-  const { data: { user }} = await supabase.auth.getUser();
-  const { data: { session }} = await supabase.auth.getSession();
-
-  return { session, user };
-};
-
-const AuthProvider = (props: { session?: Session | null; user?: UserFull | null; children?: React.ReactNode; }) => {
-  const { children } = props;
+const AuthProvider = ({ children }: { children?: React.ReactNode; }) => {
 
   const supabase = createClient();
-  const [authenticated, setAuthenticated] = useState(!!props.session);
-  const [user, setUser] = useState(props.user ?? null);
-  const [session, setSession] = useState<Session | null>(props.session ?? null);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [user, setUser] = useState<UserFull | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const reload = useCallback(async () => {
-    const {session: _session } = await getSessionUser(supabase);
-    if (_session) {
-      setAuthenticated(true);
-      setSession(_session);
-      const res = await loadProfiles(supabase, _session.user.id);
-      if (res.user) {
-        setUser(user);
-      }
-    } else {
-      setUser(null);
-      setSession(session);
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user)  {
+      setUser(null)
+      return
     }
-  }, [session, supabase, user]);
-
-  /*useEffect(() => {
-  const fetchUserData =  async () => {
-    const session = await getSessionUser(supabase);
-    if (session) {
-    setAuthenticated(true);
-    setSession(session);
-    const { data, error } = await loadProfiles(supabase, session);
+      setAuthenticated(true);
+      const [error, userProf ] = await loadProfiles(supabase, user.id);
+      if (error ){
+        setError('user profile not found')
+      }
       
-      setUser({...session, ...user});
-    } else setUser(null);
-   }
-   fetchUserData();
+      if(userProf){
+        const userFull: UserFull = { ...user, ...userProf }
+        setUser(userFull)
+      } // else {setUser(user )}
+
   }, [supabase]);
-  */
 
   useEffect(() => {
+    void reload();
+  }, [reload]);
+
+
+  /* useEffect(() => {
     const handleAuthStateChange = (event: string) => {
-      if (event === "INITIAL_SESSION") { /* empty */ } else if (event === "SIGNED_IN") {
+      if (event === "INITIAL_SESSION") { 
+      // empty 
+     } else if (event === "SIGNED_IN") {
         reload().then(() => null).catch(() => null);
       } else if (event === "SIGNED_OUT") {
         setSession(null);
@@ -94,9 +81,10 @@ const AuthProvider = (props: { session?: Session | null; user?: UserFull | null;
       data.subscription.unsubscribe();
     };
   }, [reload, supabase]);
+  */
 
   return (
-    <AuthContext.Provider value={{ authenticated, user, reload }}>
+    <AuthContext.Provider value={{ authenticated, user, reload, error }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,7 +1,7 @@
-import type { GetServerSidePropsContext } from 'next';
 // import { cache } from 'react';
 import { createClient } from './server';
 import { Session } from '@supabase/supabase-js';
+import { UserFull } from '..';
 
 // export const getUserFromContext = async (ctx: GetServerSidePropsContext): Promise<User | null> => {
 export const getSession = async (): Promise<Session | null> => {

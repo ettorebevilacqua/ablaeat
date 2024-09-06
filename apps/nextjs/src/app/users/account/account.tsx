@@ -14,14 +14,14 @@ export const accountSchema = z.object({
   full_name: z.string(),
   website: z.string(),
   aboutme: z.string(),
-  avatar_url:z.string()
+  avatar_url: z.string()
 });
 
-interface  UserForm {
+interface UserForm {
   full_name?: string;
   website?: string;
   aboutme?: string;
-  avatar_url?:string;
+  avatar_url?: string;
 }
 
 export default function Account() {
@@ -29,7 +29,7 @@ export default function Account() {
   const [errorSub] = useState<string | null>(null);
   const supabase = createClient();
   const [avatar_url, setAvatarUrl] = useState<string | null | undefined>(null);
- 
+
   const {
     register,
     handleSubmit,
@@ -44,9 +44,9 @@ export default function Account() {
     setAvatarUrl(user?.avatar_url);
   }, [reset, user]);
 
-  async function updateProfile({full_name, aboutme,avatar_url, }:UserForm) {
+  async function updateProfile({ full_name, aboutme, avatar_url, }: UserForm) {
     try {
-  
+
       const dataForm = {
         id: user?.id,
         full_name,
@@ -61,12 +61,11 @@ export default function Account() {
         alert("Error on update");
         return false;
       }
-      void reload();
       alert("Profile updated!");
     } catch (error) {
       console.log("error catch update profile", error);
       alert("Error updating the data!");
-    } finally { /* empty */ }
+    } finally { void reload(); }
   }
 
   async function onSubmit(dataForm: UserForm) {
@@ -161,9 +160,8 @@ export default function Account() {
                 <button
                   type="submit"
                   disabled={!isValid}
-                  className={`${
-                    !isValid ? "bg-slate-400 hover:bg-slate-400" : undefined
-                  } inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80`}
+                  className={`${!isValid ? "bg-slate-400 hover:bg-slate-400" : undefined
+                    } inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80`}
                 >
                   {isSubmitting ? "Submitting..." : "Save Profile"}
                 </button>

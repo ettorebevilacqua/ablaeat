@@ -19,6 +19,7 @@
     "@acme/auth": "workspace:*",
     "@acme/db": "workspace:*",
     "@acme/ui": "workspace:*",
+    "@acme/utils": "workspace:*",
     "@acme/validators": "workspace:*",
     "@hookform/resolvers": "^3.7.0",
     "@supabase/ssr": "^0.4.0",

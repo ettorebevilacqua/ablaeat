@@ -40,6 +40,6 @@ export async function GET(request: NextRequest) {
 
   // return the user to an error page with some instructions
   url.pathname = "/error";
-  console.log("xxxx url", process.env.SITE_URL + "/error");
+  console.log("error url", process.env.SITE_URL + "/error");
   return NextResponse.redirect(process.env.SITE_URL + "/error");
 }
