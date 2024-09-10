@@ -1,7 +1,8 @@
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 
 import { appRouter, createTRPCContext } from "@acme/api";
-import { auth } from "@acme/auth";
+import { getUserSession,  } from "@acme/auth";
+import { NextRequest } from "next/server";
 
 export const runtime = "edge";
 
@@ -23,7 +24,7 @@ export const OPTIONS = () => {
   setCorsHeaders(response);
   return response;
 };
-
+/*
 const handler = auth(async (req) => {
   const response = await fetchRequestHandler({
     endpoint: "/api/trpc",
@@ -31,7 +32,7 @@ const handler = auth(async (req) => {
     req,
     createContext: () =>
       createTRPCContext({
-        session: req.auth,
+        session: req,user,
         headers: req.headers,
       }),
     onError({ error, path }) {
@@ -42,5 +43,19 @@ const handler = auth(async (req) => {
   setCorsHeaders(response);
   return response;
 });
+*/
+
+const handler = async (req: NextRequest) =>{
+  const {session} = await getUserSession()
+  return  fetchRequestHandler({
+    endpoint: '/api/trpc',
+    req,
+    router: appRouter,
+    createContext: () => createTRPCContext({ headers: req.headers, session:session }),
+    onError({ error, path }) {
+      console.error(`>>> tRPC Error on '${path}'`, error);
+    },
+  })
+};
 
 export { handler as GET, handler as POST };

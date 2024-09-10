@@ -35,6 +35,9 @@ export default function Navlinks() {
             <Link href="/users/account" className={s.link}>
               Account
             </Link>
+            <Link href="/main/offer" className={s.link}>
+              Offer
+            </Link>
             <Link href="/users/dishes" className={s.link}>
               Dishes
             </Link>
