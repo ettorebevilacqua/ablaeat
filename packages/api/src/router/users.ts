@@ -2,15 +2,15 @@ import type { TRPCRouterRecord } from "@trpc/server";
 import { z } from "zod";
 
 import { desc, eq } from "@acme/db";
-import { CreatePostSchema, User } from "@acme/db/schema";
+import { CreatePostSchema, Profiles } from "@acme/db/schema";
 
 import { protectedProcedure, publicProcedure } from "../trpc";
 
 export const userRouter = {
   all: publicProcedure.query(({ ctx }) => {
     // return ctx.db.select().from(schema.post).orderBy(desc(schema.post.id));
-    return ctx.db.query.User.findMany({
-      orderBy: desc(User.id),
+    return ctx.db.query.Profiles.findMany({
+      orderBy: desc(Profiles.id),
       limit: 10,
     });
   }),
@@ -23,8 +23,8 @@ export const userRouter = {
       //   .from(schema.user)
       //   .where(eq(schema.user.id, input.id));
 
-      return ctx.db.query.User.findFirst({
-        where: eq(User.id, input.id),
+      return ctx.db.query.Profiles.findFirst({
+        where: eq(Profiles.id, input.id),
       });
     }),
 

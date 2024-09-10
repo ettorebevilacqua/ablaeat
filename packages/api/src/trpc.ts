@@ -10,8 +10,8 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import type { Session } from "@acme/auth";
-import { auth, validateToken } from "@acme/auth";
+import type { Session, User } from "@acme/auth";
+import {getUserSession } from "@acme/auth";
 import { db } from "@acme/db/client";
 
 /**
@@ -19,19 +19,19 @@ import { db } from "@acme/db/client";
  * - Expo requests will have a session token in the Authorization header
  * - Next.js requests will have a session token in cookies
  */
+ /*
 const isomorphicGetSession = async (headers: Headers) => {
   const authToken = headers.get("Authorization") ?? null;
   if (authToken) return validateToken(authToken);
-  return auth();
+ // return auth();
 };
+*/
 
 /**
  * 1. CONTEXT
  *
  * This section defines the "contexts" that are available in the backend API.
- *
  * These allow you to access things when processing a request, like the database, the session, etc.
- *
  * This helper generates the "internals" for a tRPC context. The API handler and RSC clients each
  * wrap this and provides the required context.
  *
@@ -39,13 +39,17 @@ const isomorphicGetSession = async (headers: Headers) => {
  */
 export const createTRPCContext = async (opts: {
   headers: Headers;
-  session: Session | null;
+  session: User | null;
 }) => {
+	
   const authToken = opts.headers.get("Authorization") ?? null;
-  const session = await isomorphicGetSession(opts.headers);
+  // const session = await isomorphicGetSession(opts.headers);
+  console.log(">>> tRPC create context");
+
+ const {session, error} = await getUserSession();
 
   const source = opts.headers.get("x-trpc-source") ?? "unknown";
-  console.log(">>> tRPC Request from", source, "by", session?.user);
+  console.log(">>> tRPC Request from", source, "by", session?.email);
 
   return {
     session,
@@ -108,13 +112,13 @@ export const publicProcedure = t.procedure;
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
-  if (!ctx.session?.user) {
+  if (!ctx.session) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
     ctx: {
       // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
+      session: { ...ctx.session, user: ctx.session },
     },
   });
 });

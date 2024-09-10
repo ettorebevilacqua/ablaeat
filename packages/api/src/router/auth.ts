@@ -1,4 +1,4 @@
-import type { TRPCRouterRecord } from "@trpc/server";
+/* import type { TRPCRouterRecord } from "@trpc/server";
 
 import { invalidateSessionToken } from "@acme/auth";
 
@@ -19,3 +19,4 @@ export const authRouter = {
     return { success: true };
   }),
 } satisfies TRPCRouterRecord;
+*/
