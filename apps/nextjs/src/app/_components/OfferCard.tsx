@@ -49,16 +49,18 @@ export type SaveEvent = (error: PostgrestError | null, data: Plate | null, plate
 export interface PropsCard {
   offer: OffersItem;
   onSave?: SaveEvent;
+  subScribe?:boolean;
+  user?:User;
 }
 
-export interface PropsCardForm { user: User, onSave?: SaveEvent; }
+export interface PropsCardForm { user: User; onSave?: SaveEvent; }
 
 async function deleteImg(supabase: SupabaseClient, offer: OffersItem, onSave: SaveEvent) {
-  if (!offer.img || !offer.id) return { data: null, error: null }
+ // if (!offer.img || !offer.id) return { data: null, error: null }
   const _filePath = offer.img ? offer.img.split("/").pop() : null;
 
   const { data, error } = await supabase
-    .from("users_images")
+    .from("offers")
     .delete()
     .eq("id", offer.id);
   if (error) {
@@ -71,7 +73,7 @@ async function deleteImg(supabase: SupabaseClient, offer: OffersItem, onSave: Sa
   return { data, error };
 }
 
-export function OfferCard({ offer, onSave }: PropsCard) {
+export function OfferCard({ offer, onSave, subScribe }: PropsCard) {
   const supabase = createClient();
 
   const handleDelete = useCallback(async () => {
@@ -80,10 +82,20 @@ export function OfferCard({ offer, onSave }: PropsCard) {
     if (res.error) alert("error on delete");
   }, [onSave, offer, supabase]);
 
+	// const handleSubScribe =  useCallback(async () => {},[])
+	/*
+	 * 	   <Image
+            src={offer.profiles.avatar_url ? '' : ''}
+            alt="img"
+            layout="fill"
+            className="!relative"
+          />
+	 */ 
+  const {avatar_url, full_name}=offer.profiles
   return (
     <Card>
       <CardTitle className="justify-center p-4 text-center text-2xl">
-        <h2>{offer.title}</h2>
+        {offer.title}
       </CardTitle>
       <CardContent>
         <div className="">
@@ -96,9 +108,21 @@ export function OfferCard({ offer, onSave }: PropsCard) {
         </div>
       </CardContent>
       <CardDescription>
-        <p className="mt-2 text-sm">{offer.descr}</p>
+        {offer.descr}
       </CardDescription>
       <CardFooter>
+      {offer.profiles && ( 
+		 <div>
+		   <p>{offer.profiles.full_name}</p>
+		<Image
+            src={avatar_url ? avatar_url : ''}
+            alt="img"
+            layout="fill"
+            className="!relative"
+          />
+          </div>
+		  )}
+		
         <Button
           variant="ghost"
           className="cursor-pointer text-sm font-bold uppercase text-primary hover:bg-transparent hover:text-white"
@@ -106,6 +130,17 @@ export function OfferCard({ offer, onSave }: PropsCard) {
         >
           Delete
         </Button>
+        {
+		subScribe ?? (
+		<Button
+          variant="ghost"
+          className="cursor-pointer text-sm font-bold uppercase text-primary hover:bg-transparent hover:text-white"
+          onClick={handleSubScribe}
+        >
+              Delete
+        </Button>
+			)
+		}
       </CardFooter>
     </Card>
   );
@@ -140,7 +175,7 @@ export function OfferCardForm({ user }: PropsCardForm) {
           // updated_at: new Date().toISOString(),
         }
 
-        const { error } = await supabase.from("users_images").upsert(dataForm);
+        const { error } = await supabase.from("offers").upsert(dataForm);
 
         if (error) {
           console.log("error update offer", error);
@@ -187,7 +222,7 @@ export function OfferCardForm({ user }: PropsCardForm) {
               uid={user.id}
               url={imgUrl}
               size={150}
-              bucket="offers"
+              bucket="offer_images"
               onUpload={(url) => {
                 setImgUrl(url);
                 console.log("url images", url);

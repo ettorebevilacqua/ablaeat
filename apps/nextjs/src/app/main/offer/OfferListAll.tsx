@@ -16,8 +16,8 @@ export default function OffersList() {
     try {
       const { data, error, status } = await supabase
         .from("offers")
-        .select(`id, title, img, descr, like`)
-        .eq("id_user", user?.id);
+        .select(`id, title, img, descr, like, profiles (full_name, avatar_url)`)
+        .limit(30)
 
       if (error && status !== 406) {
         console.log("ERROR ACCOUNT", error);
@@ -47,7 +47,6 @@ export default function OffersList() {
     <section>
       <div className="flex items-center justify-center px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
         <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
-          <OfferCardForm user={user} onSave={onSaveOffer} />
           <div>
             {!dataList
               ? "Empity"
@@ -55,6 +54,8 @@ export default function OffersList() {
                   <OfferCard
                     key={offer.id}
                     offer={offer}
+                    user={user}
+                    subScribe={true}
                     onSave={onSaveOffer}
                   />
                 ))}
